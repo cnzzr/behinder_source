@@ -62,14 +62,16 @@ public class BasicInfoUtils {
     }
 
     public static void getBasicInfo(final JSONObject shellEntity, final Browser baseInfoView, final Tree dirTree, final Text cmdview, final Label connectStatus, Text memoTxt, final Text imagePathTxt, Text msfTipsTxt, final Label statusLabel, final StyledText sourceCodeTxt, final Browser updateInfo, final Combo currentPathCombo, final Text sqlTxt) throws Exception {
+        // è·å–éšæœºçš„å®¢æˆ·ç«¯Agent
         int uaIndex = (new Random()).nextInt(Constants.userAgents.length - 1);
         final String currentUserAgent = Constants.userAgents[uaIndex];
         final MainShell mainShell = (MainShell) dirTree.getShell();
         memoTxt.setText(shellEntity.getString("memo"));
         formatPayloadName(shellEntity.getString("type"), msfTipsTxt, "meterpreter");
         connectStatus.setText("Checking....");
-        statusLabel.setText("ÕıÔÚ»ñÈ¡»ù±¾ĞÅÏ¢¡­¡­");
+        statusLabel.setText("æ­£åœ¨è·å–åŸºæœ¬ä¿¡æ¯â€¦â€¦");
         (new Thread() {
+            @Override
             public void run() {
                 try {
                     mainShell.currentShellService = new ShellService(shellEntity, currentUserAgent);
@@ -87,6 +89,7 @@ public class BasicInfoUtils {
                         mainShell.currentShellService.encryptType = Constants.ENCRYPT_TYPE_XOR;
                     }
 
+                    //åœ¨è·å–äº† cookie å’Œ key ä¹‹åï¼ŒBasicInfoUtil çš„ getBasicInfo å°±ä¼šè°ƒç”¨ ShellService çš„ getBasicInfo æ–¹æ³•æ¥è·å–æ”¾äº†æœ¨é©¬çš„æœåŠ¡å™¨çš„åŸºæœ¬ä¿¡æ¯ã€‚
                     JSONObject basicInfoObj = new JSONObject(mainShell.currentShellService.getBasicInfo());
                     final String basicInfoStr = new String(Base64.getDecoder().decode(basicInfoObj.getString("basicInfo")), StandardCharsets.UTF_8);
                     final String driveList = (new String(Base64.getDecoder().decode(basicInfoObj.getString("driveList")), StandardCharsets.UTF_8)).replace(":\\", ":/");
@@ -100,7 +103,7 @@ public class BasicInfoUtils {
                         public void run() {
                             if (!statusLabel.isDisposed()) {
                                 baseInfoView.setText(basicInfoStr);
-                                statusLabel.setText("»ù±¾ĞÅÏ¢»ñÈ¡Íê³É£¬Äã¿ÉÒÔÊ¹ÓÃCTRL+F½øĞĞËÑË÷");
+                                statusLabel.setText("åŸºæœ¬ä¿¡æ¯è·å–å®Œæˆï¼Œä½ å¯ä»¥ä½¿ç”¨CTRL+Fè¿›è¡Œæœç´¢");
                                 dirTree.removeAll();
                                 String[] var4;
                                 int var3 = (var4 = driveList.split(";")).length;
@@ -120,9 +123,9 @@ public class BasicInfoUtils {
 
                                 connectStatus.setForeground(Display.getDefault().getSystemColor(9));
                                 if (Main.currentProxy != null) {
-                                    connectStatus.setText("ÒÑÁ¬½Ó(´úÀí)");
+                                    connectStatus.setText("å·²è¿æ¥(ä»£ç†)");
                                 } else {
-                                    connectStatus.setText("ÒÑÁ¬½Ó");
+                                    connectStatus.setText("å·²è¿æ¥");
                                 }
 
                                 cmdview.setText(currentPath + " >");
@@ -178,7 +181,7 @@ public class BasicInfoUtils {
                                     connectStatus.setForeground(Display.getDefault().getSystemColor(3));
                                     connectStatus.setText("Failed!");
                                     baseInfoView.setText(var7.getMessage());
-                                    statusLabel.setText("»ù±¾ĞÅÏ¢»ñÈ¡Ê§°Ü:" + var7.getMessage());
+                                    statusLabel.setText("åŸºæœ¬ä¿¡æ¯è·å–å¤±è´¥:" + var7.getMessage());
                                 }
                             }
                         });

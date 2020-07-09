@@ -32,6 +32,8 @@ public class ShellService {
             this.currentHeaders.put("Content-type", "application/x-www-form-urlencoded");
         }
         mergeHeaders(this.currentHeaders, shellEntity2.getString("headers"));
+
+        //返回到 ShellService 之后会获取之后会获取返回结果里面的 cookie 和 key，在之后的请求里面都会使用这个 cookie 和 key。
         Map<String, String> keyAndCookie = Utils.getKeyAndCookie(this.currentUrl, this.currentPassword, this.currentHeaders);
         String cookie = keyAndCookie.get("cookie");
         if ((cookie == null || cookie.equals("")) && !this.currentHeaders.containsKey("cookie")) {
@@ -382,12 +384,13 @@ public class ShellService {
 
     public String getBasicInfo() throws Exception {
         String str = "";
+        //requestAndParse 则是使用带有获取的 cookie 的请求头来 postgetData 得到的加密和编码过后的字节数组，并获取返回信息。
         byte[] resData = (byte[]) Utils.requestAndParse(this.currentUrl, this.currentHeaders, Utils.getData(this.currentKey, this.encryptType, "BasicInfo", new LinkedHashMap<>(), this.currentType), this.beginIndex, this.endIndex).get("data");
         try {
             return new String(Crypt.Decrypt(resData, this.currentKey, this.encryptType, this.currentType));
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("����ʧ��:" + new String(resData, StandardCharsets.UTF_8));
+            throw new Exception("请求失败:" + new String(resData, StandardCharsets.UTF_8));
         }
     }
 

@@ -65,7 +65,7 @@ public class Eval {
         byte[] classBytes = null;
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         if (compiler == null) {
-            throw new Exception("±¾µØ»úÆ÷ÉÏÃ»ÓĞÕÒµ½±àÒë»·¾³£¬ÇëÈ·ÈÏ:1.ÊÇ·ñ°²×°ÁËJDK»·¾³;2." + System.getProperty("java.home") + File.separator + "libÄ¿Â¼ÏÂÊÇ·ñÓĞtools.jar.");
+            throw new Exception("æœ¬åœ°æœºå™¨ä¸Šæ²¡æœ‰æ‰¾åˆ°ç¼–è¯‘ç¯å¢ƒï¼Œè¯·ç¡®è®¤:1.æ˜¯å¦å®‰è£…äº†JDKç¯å¢ƒ;2." + System.getProperty("java.home") + File.separator + "libç›®å½•ä¸‹æ˜¯å¦æœ‰tools.jar.");
         } else {
             DiagnosticCollector<JavaFileObject> collector = new DiagnosticCollector();
             StandardJavaFileManager standardJavaFileManager = compiler.getStandardFileManager(collector, (Locale)null, (Charset)null);

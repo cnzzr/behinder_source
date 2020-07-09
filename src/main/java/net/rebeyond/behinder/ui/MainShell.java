@@ -80,13 +80,13 @@ public class MainShell extends Shell {
         super(display, 1264);
         this.setLayout(new BorderLayout(0, 0));
         Group grpStatus = new Group(this, 0);
-        grpStatus.setText("×´Ì¬");
+        grpStatus.setText("çŠ¶æ€");
         grpStatus.setLayoutData("South");
         grpStatus.setLayout(new GridLayout(4, false));
         this.statusLabel = new Label(grpStatus, 0);
         this.statusLabel.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         Label versionLabel = new Label(grpStatus, 0);
-        versionLabel.setText(String.format("±ùĞ« %s", Constants.VERSION));
+        versionLabel.setText(String.format("å†°è %s", Constants.VERSION));
         versionLabel.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
         Label label_1 = new Label(grpStatus, 2);
         GridData layoutData = new GridData();
@@ -97,12 +97,12 @@ public class MainShell extends Shell {
         TabFolder tabFolder = new TabFolder(this, 0);
         tabFolder.setLayoutData("Center");
         TabItem basicTab = new TabItem(tabFolder, 0);
-        basicTab.setText("»ù±¾ĞÅÏ¢");
+        basicTab.setText("åŸºæœ¬ä¿¡æ¯");
         final Browser baseInfoView = new Browser(tabFolder, 0);
         baseInfoView.setJavascriptEnabled(false);
         basicTab.setControl(baseInfoView);
         TabItem cmdTab = new TabItem(tabFolder, 0);
-        cmdTab.setText("ÃüÁîÖ´ĞĞ");
+        cmdTab.setText("å‘½ä»¤æ‰§è¡Œ");
         this.cmdview = new Text(tabFolder, 2626);
         this.cmdview.addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent arg0) {
@@ -115,7 +115,7 @@ public class MainShell extends Shell {
                     MainShell.this.CmdUtils.sendCommand(e, MainShell.this.cmdview, MainShell.this);
                 } catch (Exception var3) {
                     var3.printStackTrace();
-                    MainShell.this.statusLabel.setText("·¢ÉúÒì³££º" + var3.getMessage());
+                    MainShell.this.statusLabel.setText("å‘ç”Ÿå¼‚å¸¸ï¼š" + var3.getMessage());
                 }
 
             }
@@ -124,13 +124,13 @@ public class MainShell extends Shell {
         this.cmdview.setBackground(Display.getDefault().getSystemColor(21));
         cmdTab.setControl(this.cmdview);
         this.realCmdTab = new TabItem(tabFolder, 0);
-        this.realCmdTab.setText("ĞéÄâÖÕ¶Ë");
+        this.realCmdTab.setText("è™šæ‹Ÿç»ˆç«¯");
         Composite composite_6 = new Composite(tabFolder, 0);
         this.realCmdTab.setControl(composite_6);
         composite_6.setLayout(new GridLayout(3, false));
         Label imagePathLabel = new Label(composite_6, 0);
         imagePathLabel.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        imagePathLabel.setText("¿ÉÖ´ĞĞÎÄ¼şÂ·¾¶£º");
+        imagePathLabel.setText("å¯æ‰§è¡Œæ–‡ä»¶è·¯å¾„ï¼š");
         this.imagePathTxt = new Text(composite_6, 2048);
         this.imagePathTxt.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         final Button realCmdBtn = new Button(composite_6, 0);
@@ -148,13 +148,13 @@ public class MainShell extends Shell {
         realCmdBtn.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 try {
-                    if (realCmdBtn.getText().equals("Æô¶¯")) {
+                    if (realCmdBtn.getText().equals("å¯åŠ¨")) {
                         MainShell.this.CmdUtils.createRealCMD(MainShell.this.realCmdView, MainShell.this.imagePathTxt.getText().trim());
-                        realCmdBtn.setText("Í£Ö¹");
+                        realCmdBtn.setText("åœæ­¢");
                         realCmdBtn.setImage((Image) realCmdBtn.getData("stop"));
-                    } else if (realCmdBtn.getText().equals("Í£Ö¹")) {
+                    } else if (realCmdBtn.getText().equals("åœæ­¢")) {
                         MainShell.this.CmdUtils.stopRealCMD(MainShell.this.realCmdView, MainShell.this.imagePathTxt.getText().trim());
-                        realCmdBtn.setText("Æô¶¯");
+                        realCmdBtn.setText("å¯åŠ¨");
                         realCmdBtn.setImage((Image) realCmdBtn.getData("start"));
                     }
                 } catch (Exception var3) {
@@ -163,7 +163,7 @@ public class MainShell extends Shell {
 
             }
         });
-        realCmdBtn.setText("Æô¶¯");
+        realCmdBtn.setText("å¯åŠ¨");
         this.realCmdView = new CustomStyledText(composite_6, 2818, Constants.MENU_COPY | Constants.MENU_PASTE | Constants.MENU_SELECT_ALL);
         this.realCmdView.addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent arg0) {
@@ -192,7 +192,7 @@ public class MainShell extends Shell {
         });
         this.realCmdView.setLayoutData(new GridData(4, 4, true, true, 3, 1));
         TabItem fileManagerTab = new TabItem(tabFolder, 0);
-        fileManagerTab.setText("ÎÄ¼ş¹ÜÀí");
+        fileManagerTab.setText("æ–‡ä»¶ç®¡ç†");
         Composite composite = new Composite(tabFolder, 0);
         fileManagerTab.setControl(composite);
         GridLayout gl_composite = new GridLayout(4, true);
@@ -208,7 +208,7 @@ public class MainShell extends Shell {
                 try {
                     MainShell.this.FileManagerUtils.expandPathByNode((TreeItem) e.item, MainShell.this.fileTable);
                 } catch (Exception var3) {
-                    MainShell.this.statusLabel.setText("·¢ÉúÒì³££º" + var3.getMessage());
+                    MainShell.this.statusLabel.setText("å‘ç”Ÿå¼‚å¸¸ï¼š" + var3.getMessage());
                 }
 
             }
@@ -224,7 +224,7 @@ public class MainShell extends Shell {
         composite_11.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         composite_11.setLayout(new GridLayout(3, false));
         Label currentPathLabel = new Label(composite_11, 0);
-        currentPathLabel.setText("Â·¾¶£º");
+        currentPathLabel.setText("è·¯å¾„ï¼š");
         currentPathLabel.setBounds(0, 0, 36, 17);
         this.currentPathCombo = new Combo(composite_11, 2048);
         this.currentPathCombo.addSelectionListener(new SelectionAdapter() {
@@ -240,7 +240,7 @@ public class MainShell extends Shell {
                 MainShell.this.FileManagerUtils.expandPathByPathString(MainShell.this.currentPathCombo.getText(), MainShell.this.dirTree, MainShell.this.fileTable);
             }
         });
-        openPathBtn.setText("´ò¿ªÂ·¾¶");
+        openPathBtn.setText("æ‰“å¼€è·¯å¾„");
         this.fileTable = new Table(composite_10, 67584);
         this.fileTable.setLayoutData(new GridData(4, 4, true, true, 1, 1));
         this.fileTable.setSize(592, 345);
@@ -272,7 +272,7 @@ public class MainShell extends Shell {
                         }
                     }
                 } catch (Exception var8) {
-                    MainShell.this.statusLabel.setText("Ä¿Â¼´ò¿ªÒì³£:" + var8.getMessage());
+                    MainShell.this.statusLabel.setText("ç›®å½•æ‰“å¼€å¼‚å¸¸:" + var8.getMessage());
                 }
 
             }
@@ -283,14 +283,14 @@ public class MainShell extends Shell {
         this.composite_8 = new Composite(this.composite_7, 0);
         this.composite_8.setLayout(new GridLayout(2, true));
         Group composite_9 = new Group(this.composite_8, 0);
-        composite_9.setText("ÎÄ¼şĞÅÏ¢");
+        composite_9.setText("æ–‡ä»¶ä¿¡æ¯");
         composite_9.setLayout(new GridLayout(3, false));
         composite_9.setLayoutData(new GridData(4, 16777216, true, false, 2, 1));
         Label lblNewLabel_1 = new Label(composite_9, 0);
         GridData gd_lblNewLabel_1 = new GridData(16384, 16777216, false, false, 1, 1);
         gd_lblNewLabel_1.horizontalIndent = 10;
         lblNewLabel_1.setLayoutData(gd_lblNewLabel_1);
-        lblNewLabel_1.setText("Â·¾¶£º");
+        lblNewLabel_1.setText("è·¯å¾„ï¼š");
         this.filePathTxt = new Text(composite_9, 2048);
         this.filePathTxt.setEditable(false);
         this.filePathTxt.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
@@ -324,7 +324,7 @@ public class MainShell extends Shell {
                 MainShell.this.fileTable.getParent().getParent().layout();
             }
         });
-        btnNewButton_2.setText("·µ»Ø");
+        btnNewButton_2.setText("è¿”å›");
         Button btnNewButton_3 = new Button(this.composite_8, 0);
         btnNewButton_3.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -339,8 +339,8 @@ public class MainShell extends Shell {
         GridData gd_btnNewButton_3 = new GridData(16384, 16777216, false, false, 1, 1);
         gd_btnNewButton_3.widthHint = 50;
         btnNewButton_3.setLayoutData(gd_btnNewButton_3);
-        btnNewButton_3.setText("±£´æ");
-        String[] tableHeader = new String[]{"Ãû³Æ", "´óĞ¡", "ĞŞ¸ÄÊ±¼ä"};
+        btnNewButton_3.setText("ä¿å­˜");
+        String[] tableHeader = new String[]{"åç§°", "å¤§å°", "ä¿®æ”¹æ—¶é—´"};
 
         for (int i = 0; i < tableHeader.length; ++i) {
             TableColumn tableColumn = new TableColumn(this.fileTable, 0);
@@ -349,25 +349,25 @@ public class MainShell extends Shell {
         }
 
         this.socksProxyTab = new TabItem(tabFolder, 0);
-        this.socksProxyTab.setText("Socks´úÀí");
+        this.socksProxyTab.setText("Socksä»£ç†");
         Composite composite_4 = new Composite(tabFolder, 0);
         this.socksProxyTab.setControl(composite_4);
         composite_4.setLayout(new GridLayout(1, false));
         Group group_3 = new Group(composite_4, 0);
         group_3.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         group_3.setSize(794, 345);
-        group_3.setText("Á¬½ÓĞÅÏ¢");
+        group_3.setText("è¿æ¥ä¿¡æ¯");
         group_3.setLayout(new GridLayout(5, true));
         Label label_7 = new Label(group_3, 0);
         label_7.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        label_7.setText("±¾µØ¼àÌıµØÖ·£º");
+        label_7.setText("æœ¬åœ°ç›‘å¬åœ°å€ï¼š");
         label_7.setAlignment(131072);
         this.bindAddressTxt = new Text(group_3, 2048);
         this.bindAddressTxt.setText("0.0.0.0");
         this.bindAddressTxt.setLayoutData(new GridData(4, 16777216, false, false, 1, 1));
         Label label_8 = new Label(group_3, 0);
         label_8.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        label_8.setText("±¾µØ¼àÌı¶Ë¿Ú£º");
+        label_8.setText("æœ¬åœ°ç›‘å¬ç«¯å£ï¼š");
         label_8.setAlignment(131072);
         this.bindPortTxt = new Text(group_3, 2048);
         this.bindPortTxt.setText("10086");
@@ -376,13 +376,13 @@ public class MainShell extends Shell {
         proxyBtn.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 try {
-                    if (proxyBtn.getText().equals("¿ªÆô")) {
+                    if (proxyBtn.getText().equals("å¼€å¯")) {
                         MainShell.this.proxyUtils = new ProxyUtils(MainShell.this.currentShellService, MainShell.this.bindAddressTxt.getText(), MainShell.this.bindPortTxt.getText(), MainShell.this.proxyLogTxt, MainShell.this.statusLabel);
                         MainShell.this.proxyUtils.start();
-                        proxyBtn.setText("¹Ø±Õ");
+                        proxyBtn.setText("å…³é—­");
                     } else {
                         MainShell.this.proxyUtils.shutdown();
-                        proxyBtn.setText("¿ªÆô");
+                        proxyBtn.setText("å¼€å¯");
                     }
                 } catch (Exception var3) {
                     var3.printStackTrace();
@@ -391,33 +391,33 @@ public class MainShell extends Shell {
             }
         });
         proxyBtn.setLayoutData(new GridData(16777216, 16777216, false, false, 1, 1));
-        proxyBtn.setText("¿ªÆô");
+        proxyBtn.setText("å¼€å¯");
         Group group_4 = new Group(composite_4, 0);
         group_4.setLayout(new GridLayout(1, false));
         group_4.setLayoutData(new GridData(4, 4, false, true, 1, 1));
-        group_4.setText("ÔËĞĞÈÕÖ¾");
+        group_4.setText("è¿è¡Œæ—¥å¿—");
         this.proxyLogTxt = new StyledText(group_4, 68160);
         this.proxyLogTxt.setLayoutData(new GridData(4, 4, true, true, 1, 1));
         this.reverseTab = new TabItem(tabFolder, 0);
-        this.reverseTab.setText("·´µ¯Shell");
+        this.reverseTab.setText("åå¼¹Shell");
         Composite composite_2 = new Composite(tabFolder, 0);
         this.reverseTab.setControl(composite_2);
         composite_2.setLayout(new GridLayout(1, false));
         Group group = new Group(composite_2, 0);
         group.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
-        group.setText("Á¬½ÓĞÅÏ¢");
+        group.setText("è¿æ¥ä¿¡æ¯");
         group.setLayout(new GridLayout(7, true));
         Label lblIp = new Label(group, 0);
         lblIp.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
         lblIp.setAlignment(131072);
-        lblIp.setText("IP£º");
+        lblIp.setText("IPï¼š");
         this.IPTxt = new Text(group, 2048);
         this.IPTxt.setLayoutData(new GridData(4, 16777216, false, false, 1, 1));
         this.IPTxt.setText("192.168.50.53");
         Label lblPort = new Label(group, 0);
         lblPort.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
         lblPort.setAlignment(131072);
-        lblPort.setText("Port£º");
+        lblPort.setText("Portï¼š");
         this.portTxt = new Text(group, 2048);
         this.portTxt.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         this.portTxt.setText("4444");
@@ -455,21 +455,21 @@ public class MainShell extends Shell {
             }
         });
         this.connectBackBtn.setLayoutData(new GridData(16777216, 16777216, false, false, 1, 1));
-        this.connectBackBtn.setText("¸øÎÒÁ¬");
+        this.connectBackBtn.setText("ç»™æˆ‘è¿");
         Group group_1 = new Group(composite_2, 0);
         group_1.setLayout(new FillLayout(256));
         group_1.setLayoutData(new GridData(4, 4, true, true, 1, 1));
-        group_1.setText("ÌáÊ¾");
+        group_1.setText("æç¤º");
         this.msfTipsTxt = new Text(group_1, 2626);
         this.msfTipsTxt.setText("root@silver:/tmp# msfconsole\r\nmsf > use exploit/multi/handler \r\nmsf exploit(multi/handler) > set payload %s\r\npayload => %s\r\nmsf exploit(multi/handler) > show options\r\n\r\nPayload options (%s):\r\n\r\n   Name   Current Setting  Required  Description\r\n   ----   ---------------  --------  -----------\r\n   LHOST                   yes       The listen address (an interface may be specified)\r\n   LPORT  4444             yes       The listen port\r\n\r\n\r\nExploit target:\r\n\r\n   Id  Name\r\n   --  ----\r\n   0   Wildcard Target\r\n\r\n\r\nmsf exploit(multi/handler) > set lhost 0.0.0.0\r\nlhost => 0.0.0.0\r\nmsf exploit(multi/handler) > exploit \r\n\r\n[*] Started reverse TCP handler on 0.0.0.0:4444 \r\n[*] Sending stage (53859 bytes) to 119.3.72.174\r\n[*] Meterpreter session 1 opened (192.168.0.166:4444 -> 119.3.72.174:47157) at 2018-08-23 11:03:41 +0800\r\n\r\nmeterpreter > ");
         TabItem databaseTab = new TabItem(tabFolder, 0);
-        databaseTab.setText("Êı¾İ¿â¹ÜÀí");
+        databaseTab.setText("æ•°æ®åº“ç®¡ç†");
         Composite composite_3 = new Composite(tabFolder, 0);
         databaseTab.setControl(composite_3);
         composite_3.setLayout(new GridLayout(4, false));
         Group group_2 = new Group(composite_3, 0);
         group_2.setLayoutData(new GridData(4, 16777216, true, false, 4, 1));
-        group_2.setText("Á¬½ÓĞÅÏ¢");
+        group_2.setText("è¿æ¥ä¿¡æ¯");
         GridLayout gl_group_2 = new GridLayout(5, false);
         gl_group_2.verticalSpacing = 3;
         group_2.setLayout(gl_group_2);
@@ -477,7 +477,7 @@ public class MainShell extends Shell {
         GridData gd_label_6 = new GridData(131072, 16777216, false, false, 1, 1);
         gd_label_6.widthHint = 120;
         label_6.setLayoutData(gd_label_6);
-        label_6.setText("Êı¾İ¿âÀàĞÍ£º");
+        label_6.setText("æ•°æ®åº“ç±»å‹ï¼š");
         this.dataTypeComb = new Combo(group_2, 0);
         this.dataTypeComb.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -499,7 +499,7 @@ public class MainShell extends Shell {
         this.dataTypeComb.select(0);
         Label label_5 = new Label(group_2, 0);
         label_5.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        label_5.setText("Á¬½Ó×Ö·û´®£º");
+        label_5.setText("è¿æ¥å­—ç¬¦ä¸²ï¼š");
         label_5.setAlignment(131072);
         this.connStrTxt = new Text(group_2, 2048);
         this.connStrTxt.setText("mysql://root:123456@127.0.0.1:3306/mysql");
@@ -517,7 +517,7 @@ public class MainShell extends Shell {
             }
         });
         connBtn.setLayoutData(new GridData(16777216, 16777216, false, false, 1, 1));
-        connBtn.setText("Á¬½Ó");
+        connBtn.setText("è¿æ¥");
         this.dataTree = new Tree(composite_3, 2048);
         this.dataTree.addMouseListener(new MouseAdapter() {
             public void mouseDown(MouseEvent e) {
@@ -545,7 +545,7 @@ public class MainShell extends Shell {
         this.dataTree.setLayoutData(gd_dataTree);
         Label lblSql = new Label(composite_3, 0);
         lblSql.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        lblSql.setText("SQLÓï¾ä£º");
+        lblSql.setText("SQLè¯­å¥ï¼š");
         lblSql.setAlignment(131072);
         this.sqlTxt = new Text(composite_3, 2626);
         GridData gd_sqlTxt = new GridData(4, 16777216, true, false, 1, 1);
@@ -557,18 +557,18 @@ public class MainShell extends Shell {
                 MainShell.this.DBManagerUtils.querySQL(MainShell.this.connStrTxt.getText(), MainShell.this.dataTree, MainShell.this.dataTable, MainShell.this.sqlTxt.getText());
             }
         });
-        queryBtn.setText("Ö´ĞĞ");
+        queryBtn.setText("æ‰§è¡Œ");
         this.dataTable = new Table(composite_3, 67584);
         this.dataTable.setLayoutData(new GridData(4, 4, true, true, 3, 1));
         this.dataTable.setHeaderVisible(true);
         this.dataTable.setLinesVisible(true);
         TabItem evalTab = new TabItem(tabFolder, 0);
-        evalTab.setText("×Ô¶¨Òå´úÂë");
+        evalTab.setText("è‡ªå®šä¹‰ä»£ç ");
         Composite composite_1 = new Composite(tabFolder, 0);
         evalTab.setControl(composite_1);
         composite_1.setLayout(new GridLayout(3, false));
         Group group_5 = new Group(composite_1, 0);
-        group_5.setText("Ô´´úÂë");
+        group_5.setText("æºä»£ç ");
         group_5.setLayout(new GridLayout(1, false));
         group_5.setLayoutData(new GridData(4, 4, true, true, 1, 1));
         group_5.setBounds(0, 0, 70, 84);
@@ -580,15 +580,15 @@ public class MainShell extends Shell {
                 MainShell.this.EvalUtils.execute(btnNewButton, MainShell.this.sourceCodeTxt.getText(), MainShell.this.evalResultTxt);
             }
         });
-        btnNewButton.setText("ÔËĞĞ");
+        btnNewButton.setText("è¿è¡Œ");
         Group group_6 = new Group(composite_1, 0);
-        group_6.setText("ÔËĞĞ½á¹û");
+        group_6.setText("è¿è¡Œç»“æœ");
         group_6.setLayout(new GridLayout(1, false));
         group_6.setLayoutData(new GridData(4, 4, true, true, 1, 1));
         this.evalResultTxt = new StyledText(group_6, 2816);
         this.evalResultTxt.setLayoutData(new GridData(4, 4, true, true, 1, 1));
         TabItem memoTab = new TabItem(tabFolder, 0);
-        memoTab.setText("±¸ÍüÂ¼");
+        memoTab.setText("å¤‡å¿˜å½•");
         Composite composite_5 = new Composite(tabFolder, 0);
         memoTab.setControl(composite_5);
         composite_5.setLayout(new GridLayout(1, false));
@@ -598,7 +598,7 @@ public class MainShell extends Shell {
                 try {
                     int shellID = shellEntity.getInt("id");
                     Main.shellManager.updateMemo(shellID, MainShell.this.memoTxt.getText());
-                    MainShell.this.statusLabel.setText("±¸ÍüÂ¼±£´æ³É¹¦");
+                    MainShell.this.statusLabel.setText("å¤‡å¿˜å½•ä¿å­˜æˆåŠŸ");
                 } catch (Exception var3) {
                     var3.printStackTrace();
                 }
@@ -607,7 +607,7 @@ public class MainShell extends Shell {
         });
         this.memoTxt.setLayoutData(new GridData(4, 4, true, true, 1, 1));
         this.updateInfoTab = new TabItem(tabFolder, 0);
-        this.updateInfoTab.setText("¸üĞÂĞÅÏ¢");
+        this.updateInfoTab.setText("æ›´æ–°ä¿¡æ¯");
         this.updateInfoBrowser = new Browser(tabFolder, 0);
         this.updateInfoTab.setControl(this.updateInfoBrowser);
         Group grpHeader = new Group(this, 0);
@@ -630,7 +630,7 @@ public class MainShell extends Shell {
                 try {
                     BasicInfoUtils.getBasicInfo(shellEntity, baseInfoView, MainShell.this.dirTree, MainShell.this.cmdview, MainShell.this.connectStatus, MainShell.this.memoTxt, MainShell.this.imagePathTxt, MainShell.this.msfTipsTxt, MainShell.this.statusLabel, MainShell.this.sourceCodeTxt, MainShell.this.updateInfoBrowser, MainShell.this.currentPathCombo, MainShell.this.sqlTxt);
                 } catch (Exception var3) {
-                    MainShell.this.statusLabel.setText("Á¬½ÓÒì³£:" + var3.getMessage());
+                    MainShell.this.statusLabel.setText("è¿æ¥å¼‚å¸¸:" + var3.getMessage());
                 }
 
             }

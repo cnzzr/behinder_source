@@ -26,7 +26,7 @@ public class ConnectBackUtils {
                     Display.getDefault().syncExec(new Runnable() {
                         public void run() {
                             if (!ConnectBackUtils.this.statusLabel.isDisposed() && status.equals("fail")) {
-                                ConnectBackUtils.this.statusLabel.setText("≤Ÿ◊˜ ß∞‹:" + resultObj.getString("msg"));
+                                ConnectBackUtils.this.statusLabel.setText("Êìç‰ΩúÂ§±Ë¥•:" + resultObj.getString("msg"));
                             }
                         }
                     });

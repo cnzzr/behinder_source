@@ -50,12 +50,12 @@ public class CmdUtils {
                 if (resultObj.getString("status").equals("success")) {
                     cmdView.insert("\n" + resultObj.getString("msg") + "\n");
                     cmdView.insert(pwd);
-                    this.statusLabel.setText("ÃüÁîÖ´ĞĞÍê³É");
+                    this.statusLabel.setText("å‘½ä»¤æ‰§è¡Œå®Œæˆ");
                     this.currentPos = cmdView.getCaretPosition();
                 } else {
                     cmdView.insert("\n" + resultObj.getString("msg") + "\n");
                     cmdView.insert(pwd);
-                    this.statusLabel.setText("ÃüÁîÖ´ĞĞÊ§°Ü:" + resultObj.getString("msg"));
+                    this.statusLabel.setText("å‘½ä»¤æ‰§è¡Œå¤±è´¥:" + resultObj.getString("msg"));
                 }
                 e.doit = false;
             } catch (Exception ex) {
@@ -68,7 +68,7 @@ public class CmdUtils {
     }
 
     public void createRealCMD(final StyledText cmdView, final String imagePath) throws Exception {
-        this.statusLabel.setText("ÕıÔÚÆô¶¯ĞéÄâÖÕ¶Ë¡­¡­");
+        this.statusLabel.setText("æ­£åœ¨å¯åŠ¨è™šæ‹Ÿç»ˆç«¯â€¦â€¦");
         new Thread() {
             public void run() {
                 try {
@@ -100,11 +100,11 @@ public class CmdUtils {
                                     styledText.setCaretOffset(styledText.getCharCount());
                                     CmdUtils.this.currentPos = styledText.getCaretOffset();
                                     styledText.setFocus();
-                                    CmdUtils.this.statusLabel.setText("ĞéÄâÖÕ¶ËÆô¶¯Íê³É¡£");
+                                    CmdUtils.this.statusLabel.setText("è™šæ‹Ÿç»ˆç«¯å¯åŠ¨å®Œæˆã€‚");
                                     CmdUtils.this.running = Constants.REALCMD_RUNNING;
                                     return;
                                 }
-                                CmdUtils.this.statusLabel.setText("ĞéÄâÖÕ¶ËÆô¶¯Ê§°Ü:" + msg);
+                                CmdUtils.this.statusLabel.setText("è™šæ‹Ÿç»ˆç«¯å¯åŠ¨å¤±è´¥:" + msg);
                             }
                         }
                     });
@@ -113,7 +113,7 @@ public class CmdUtils {
                     Display.getDefault().syncExec(new Runnable() {
                         public void run() {
                             if (!CmdUtils.this.statusLabel.isDisposed()) {
-                                CmdUtils.this.statusLabel.setText("ĞéÄâÖÕ¶ËÆô¶¯Ê§°Ü");
+                                CmdUtils.this.statusLabel.setText("è™šæ‹Ÿç»ˆç«¯å¯åŠ¨å¤±è´¥");
                             }
                         }
                     });
@@ -123,7 +123,7 @@ public class CmdUtils {
     }
 
     public void stopRealCMD(StyledText cmdView, String imagePath) throws Exception {
-        this.statusLabel.setText("ÕıÔÚÍ£Ö¹ĞéÄâÖÕ¶Ë¡­¡­");
+        this.statusLabel.setText("æ­£åœ¨åœæ­¢è™šæ‹Ÿç»ˆç«¯â€¦â€¦");
         new Thread() {
             public void run() {
                 try {
@@ -134,11 +134,11 @@ public class CmdUtils {
                         public void run() {
                             if (!CmdUtils.this.statusLabel.isDisposed()) {
                                 if (status.equals("success")) {
-                                    CmdUtils.this.statusLabel.setText("ĞéÄâÖÕ¶ËÒÑÍ£Ö¹¡£");
+                                    CmdUtils.this.statusLabel.setText("è™šæ‹Ÿç»ˆç«¯å·²åœæ­¢ã€‚");
                                     CmdUtils.this.running = Constants.REALCMD_STOPPED;
                                     return;
                                 }
-                                CmdUtils.this.statusLabel.setText("ĞéÄâÖÕ¶ËÆô¶¯Ê§°Ü:" + msg);
+                                CmdUtils.this.statusLabel.setText("è™šæ‹Ÿç»ˆç«¯å¯åŠ¨å¤±è´¥:" + msg);
                             }
                         }
                     });
@@ -147,7 +147,7 @@ public class CmdUtils {
                     Display.getDefault().syncExec(new Runnable() {
                         public void run() {
                             if (!CmdUtils.this.statusLabel.isDisposed()) {
-                                CmdUtils.this.statusLabel.setText("ĞéÄâÍ£Ö¹Æô¶¯Ê§°Ü");
+                                CmdUtils.this.statusLabel.setText("è™šæ‹Ÿåœæ­¢å¯åŠ¨å¤±è´¥");
                             }
                         }
                     });
@@ -176,13 +176,13 @@ public class CmdUtils {
 
     public void runRealCMD(StyledText cmdView, KeyEvent key) throws Exception {
         if (this.running != Constants.REALCMD_RUNNING) {
-            this.statusLabel.setText("ĞéÄâÖÕ¶ËÉĞÎ´Æô¶¯£¬ÇëÏÈÆô¶¯ĞéÄâÖÕ¶Ë¡£");
+            this.statusLabel.setText("è™šæ‹Ÿç»ˆç«¯å°šæœªå¯åŠ¨ï¼Œè¯·å…ˆå¯åŠ¨è™šæ‹Ÿç»ˆç«¯ã€‚");
             return;
         }
         final char keyValue = key.character;
         if (keyValue == 9 || keyValue == 13) {
             final String cmd = cmdView.getText(this.currentPos, cmdView.getCaretOffset() - 1).trim();
-            this.statusLabel.setText("ÇëÉÔºó¡­¡­");
+            this.statusLabel.setText("è¯·ç¨åâ€¦â€¦");
             final KeyEvent keyEvent = key;
             final StyledText styledText = cmdView;
             new Thread() {
@@ -214,7 +214,7 @@ public class CmdUtils {
                                         styledText.setCaretOffset(styledText.getCharCount());
                                         styledText.setTopIndex(styledText.getLineCount() - 1);
                                         CmdUtils.this.currentPos = styledText.getCaretOffset();
-                                        CmdUtils.this.statusLabel.setText("Íê³É¡£");
+                                        CmdUtils.this.statusLabel.setText("å®Œæˆã€‚");
                                     }
                                 });
                             }

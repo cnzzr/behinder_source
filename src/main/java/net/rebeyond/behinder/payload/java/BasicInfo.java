@@ -16,12 +16,12 @@ public class BasicInfo {
         page.getResponse().setCharacterEncoding("UTF-8");
         String str = "";
         try {
-            StringBuilder basicInfo = new StringBuilder("<br/><font size=2 color=red>»·¾³±äÁ¿:</font><br/>");
+            StringBuilder basicInfo = new StringBuilder("<br/><font size=2 color=red>ç¯å¢ƒå˜é‡:</font><br/>");
             Map<String, String> env = System.getenv();
             for (String name : env.keySet()) {
                 basicInfo.append(name + "=" + env.get(name) + "<br/>");
             }
-            basicInfo.append("<br/><font size=2 color=red>JREÏµÍ³ÊôĞÔ:</font><br/>");
+            basicInfo.append("<br/><font size=2 color=red>JREç³»ç»Ÿå±æ€§:</font><br/>");
             for (Entry<Object, Object> entry : System.getProperties().entrySet()) {
                 basicInfo.append(entry.getKey() + " = " + entry.getValue() + "<br/>");
             }

@@ -14,7 +14,7 @@ public class CustomStyledText extends StyledText {
         Menu menu = new Menu(control);
         if ((Constants.MENU_CUT & menuStyle) > 0) {
             MenuItem item = new MenuItem(menu, 8);
-            item.setText("¼ôÇÐ");
+            item.setText("å‰ªåˆ‡");
             item.addListener(13, new Listener() {
                 public void handleEvent(Event event) {
                     control.cut();
@@ -23,7 +23,7 @@ public class CustomStyledText extends StyledText {
         }
         if ((Constants.MENU_COPY & menuStyle) > 0) {
             MenuItem item2 = new MenuItem(menu, 8);
-            item2.setText("¸´ÖÆ");
+            item2.setText("å¤åˆ¶");
             item2.addListener(13, new Listener() {
                 public void handleEvent(Event event) {
                     control.copy();
@@ -32,7 +32,7 @@ public class CustomStyledText extends StyledText {
         }
         if ((Constants.MENU_PASTE & menuStyle) > 0) {
             MenuItem item3 = new MenuItem(menu, 8);
-            item3.setText("Õ³Ìù");
+            item3.setText("ç²˜è´´");
             item3.addListener(13, new Listener() {
                 public void handleEvent(Event event) {
                     control.paste();
@@ -41,7 +41,7 @@ public class CustomStyledText extends StyledText {
         }
         if ((Constants.MENU_SELECT_ALL & menuStyle) > 0) {
             MenuItem item4 = new MenuItem(menu, 8);
-            item4.setText("È«Ñ¡");
+            item4.setText("å…¨é€‰");
             item4.addListener(13, new Listener() {
                 public void handleEvent(Event event) {
                     control.selectAll();
@@ -50,7 +50,7 @@ public class CustomStyledText extends StyledText {
         }
         if ((Constants.MENU_CLEAR & menuStyle) > 0) {
             MenuItem item5 = new MenuItem(menu, 8);
-            item5.setText("Çå¿Õ");
+            item5.setText("æ¸…ç©º");
             item5.addListener(13, new Listener() {
                 public void handleEvent(Event event) {
                     control.setText("");

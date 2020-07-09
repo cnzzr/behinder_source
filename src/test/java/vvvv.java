@@ -19,8 +19,8 @@ public class vvvv {
         viewForm.setLayout(new FillLayout());
         ToolBar toolBar = new ToolBar(viewForm, 0);
         viewForm.setContent(new Text(viewForm, 2560));
-        new ToolItem(toolBar, 8).setText("»°µ√");
-        new ToolItem(toolBar, 8).setText("«Â≥˝");
+        new ToolItem(toolBar, 8).setText("ÂèñÂæó");
+        new ToolItem(toolBar, 8).setText("Ê∏ÖÈô§");
         viewForm.setTopLeft(toolBar);
         CLabel lblNewLabel = new CLabel(viewForm, 0);
         lblNewLabel.setImage(SWTResourceManager.getImage(vvvv.class, "/javax/swing/plaf/basic/icons/JavaCup16.png"));

@@ -58,7 +58,7 @@ public class ProxyUtils extends Thread {
                             Session.this.socket.getOutputStream().flush();
                         }
                     } catch (Exception e) {
-                        ProxyUtils.this.log("ERROR", "Êı¾İ¶ÁÈ¡Òì³£:" + e.getMessage());
+                        ProxyUtils.this.log("ERROR", "æ•°æ®è¯»å–å¼‚å¸¸:" + e.getMessage());
                         e.printStackTrace();
                     }
                 }
@@ -84,16 +84,16 @@ public class ProxyUtils extends Thread {
                         }
                     } catch (SocketTimeoutException e) {
                     } catch (Exception e2) {
-                        ProxyUtils.this.log("ERROR", "Êı¾İĞ´ÈëÒì³£:" + e2.getMessage());
+                        ProxyUtils.this.log("ERROR", "æ•°æ®å†™å…¥å¼‚å¸¸:" + e2.getMessage());
                         e2.printStackTrace();
                     }
                 }
                 try {
                     ProxyUtils.this.currentShellService.closeProxy();
-                    ProxyUtils.this.log("INFO", "ËíµÀ¹Ø±Õ³É¹¦¡£");
+                    ProxyUtils.this.log("INFO", "éš§é“å…³é—­æˆåŠŸã€‚");
                     Session.this.socket.close();
                 } catch (Exception e3) {
-                    ProxyUtils.this.log("ERROR", "ËíµÀ¹Ø±ÕÊ§°Ü:" + e3.getMessage());
+                    ProxyUtils.this.log("ERROR", "éš§é“å…³é—­å¤±è´¥:" + e3.getMessage());
                     e3.printStackTrace();
                 }
             }
@@ -106,7 +106,7 @@ public class ProxyUtils extends Thread {
         public void run() {
             try {
                 if (handleSocks(this.socket)) {
-                    ProxyUtils.this.log("INFO", "ÕıÔÚÍ¨ĞÅ...");
+                    ProxyUtils.this.log("INFO", "æ­£åœ¨é€šä¿¡...");
                     ProxyUtils.this.r = new Reader(this, null);
                     ProxyUtils.this.w = new Writer(this, null);
                     ProxyUtils.this.r.start();
@@ -190,7 +190,7 @@ public class ProxyUtils extends Thread {
                     bArr2[0] = 5;
                     bArr2[3] = 1;
                     os.write(CipherUtils.mergeByteArray(bArr2, InetAddress.getByName(host2).getAddress(), targetPort));
-                    ProxyUtils.this.log("INFO", "ËíµÀ½¨Á¢³É¹¦£¬ÇëÇóÔ¶³ÌµØÖ·" + host2 + ":" + port);
+                    ProxyUtils.this.log("INFO", "éš§é“å»ºç«‹æˆåŠŸï¼Œè¯·æ±‚è¿œç¨‹åœ°å€" + host2 + ":" + port);
                     return true;
                 }
                 byte[] bArr3 = new byte[4];
@@ -237,7 +237,7 @@ public class ProxyUtils extends Thread {
     }
 
     public void shutdown() {
-        log("INFO", "ÕıÔÚ¹Ø±Õ´úÀí·şÎñ");
+        log("INFO", "æ­£åœ¨å…³é—­ä»£ç†æœåŠ¡");
         try {
             if (this.r != null) {
                 this.r.stop();
@@ -250,9 +250,9 @@ public class ProxyUtils extends Thread {
             }
             this.serverSocket.close();
         } catch (IOException e) {
-            log("ERROR", "´úÀí·şÎñ¹Ø±ÕÒì³£:" + e.getMessage());
+            log("ERROR", "ä»£ç†æœåŠ¡å…³é—­å¼‚å¸¸:" + e.getMessage());
         }
-        log("INFO", "´úÀí·şÎñÒÑÍ£Ö¹");
+        log("INFO", "ä»£ç†æœåŠ¡å·²åœæ­¢");
     }
 
     public void run() {
@@ -260,14 +260,14 @@ public class ProxyUtils extends Thread {
             this.proxy = Thread.currentThread();
             this.serverSocket = new ServerSocket(Integer.parseInt(this.bindPort), 50, InetAddress.getByName(this.bindAddress));
             this.serverSocket.setReuseAddress(true);
-            log("INFO", "ÕıÔÚ¼àÌı¶Ë¿Ú" + this.bindPort);
+            log("INFO", "æ­£åœ¨ç›‘å¬ç«¯å£" + this.bindPort);
             while (true) {
                 Socket socket = this.serverSocket.accept();
-                log("INFO", "ÊÕµ½¿Í»§¶ËÁ¬½ÓÇëÇó.");
+                log("INFO", "æ”¶åˆ°å®¢æˆ·ç«¯è¿æ¥è¯·æ±‚.");
                 new Session(socket).start();
             }
         } catch (IOException e) {
-            log("ERROR", "¶Ë¿Ú¼àÌıÊ§°Ü£º" + e.getMessage());
+            log("ERROR", "ç«¯å£ç›‘å¬å¤±è´¥ï¼š" + e.getMessage());
         }
     }
 }

@@ -37,7 +37,7 @@ public class DBManagerUtils {
         String driverPath = "net/rebeyond/behinder/resource/driver/";
         Display.getDefault().syncExec(() -> {
             if (!DBManagerUtils.this.statusLabel.isDisposed()) {
-                DBManagerUtils.this.statusLabel.setText("ÕıÔÚÉÏ´«Êı¾İ¿âÇı¶¯¡­¡­");
+                DBManagerUtils.this.statusLabel.setText("æ­£åœ¨ä¸Šä¼ æ•°æ®åº“é©±åŠ¨â€¦â€¦");
             }
         });
         String os = this.currentShellService.shellEntity.getString("os").toLowerCase();
@@ -64,20 +64,20 @@ public class DBManagerUtils {
         this.currentShellService.uploadFile(remotePath, driverFileContent, true);
         Display.getDefault().syncExec(() -> {
             if (!DBManagerUtils.this.statusLabel.isDisposed()) {
-                DBManagerUtils.this.statusLabel.setText("Çı¶¯ÉÏ´«³É¹¦£¬ÕıÔÚ¼ÓÔØÇı¶¯¡­¡­");
+                DBManagerUtils.this.statusLabel.setText("é©±åŠ¨ä¸Šä¼ æˆåŠŸï¼Œæ­£åœ¨åŠ è½½é©±åŠ¨â€¦â€¦");
             }
         });
         JSONObject loadRes = this.currentShellService.loadJar(remotePath);
         if (loadRes.getString("status").equals("fail")) {
-            throw new Exception("Çı¶¯¼ÓÔØÊ§°Ü:" + loadRes.getString("msg"));
+            throw new Exception("é©±åŠ¨åŠ è½½å¤±è´¥:" + loadRes.getString("msg"));
         } else {
             Display.getDefault().syncExec(() -> {
                 if (!DBManagerUtils.this.statusLabel.isDisposed()) {
                     if (type.equals("jsp")) {
-                        DBManagerUtils.this.statusLabel.setText("Çı¶¯¼ÓÔØ³É¹¦£¬ÇëÔÙ´Îµã»÷¡°Á¬½Ó¡±¡£");
+                        DBManagerUtils.this.statusLabel.setText("é©±åŠ¨åŠ è½½æˆåŠŸï¼Œè¯·å†æ¬¡ç‚¹å‡»â€œè¿æ¥â€ã€‚");
                     }
 
-                    DBManagerUtils.this.statusLabel.setText("Çı¶¯¼ÓÔØ³É¹¦¡£");
+                    DBManagerUtils.this.statusLabel.setText("é©±åŠ¨åŠ è½½æˆåŠŸã€‚");
                 }
             });
         }
@@ -87,7 +87,7 @@ public class DBManagerUtils {
         Display.getDefault().syncExec(() -> {
             if (!DBManagerUtils.this.statusLabel.isDisposed()) {
                 DBManagerUtils.this.sqlTxt.setText(sql);
-                DBManagerUtils.this.statusLabel.setText("ÕıÔÚ²éÑ¯£¬ÇëÉÔºó¡­¡­");
+                DBManagerUtils.this.statusLabel.setText("æ­£åœ¨æŸ¥è¯¢ï¼Œè¯·ç¨åâ€¦â€¦");
             }
         });
         String type = connParams.get("type");
@@ -102,9 +102,9 @@ public class DBManagerUtils {
         Display.getDefault().syncExec(() -> {
             if (!DBManagerUtils.this.statusLabel.isDisposed()) {
                 if (status.equals("success")) {
-                    DBManagerUtils.this.statusLabel.setText("²éÑ¯Íê³É¡£");
+                    DBManagerUtils.this.statusLabel.setText("æŸ¥è¯¢å®Œæˆã€‚");
                 } else if (status.equals("fail") && !msg.equals("NoDriver")) {
-                    DBManagerUtils.this.statusLabel.setText("²éÑ¯Ê§°Ü:" + msg);
+                    DBManagerUtils.this.statusLabel.setText("æŸ¥è¯¢å¤±è´¥:" + msg);
                 }
 
             }
@@ -413,14 +413,14 @@ public class DBManagerUtils {
         final TableCursor cursor = new TableCursor(table, 0);
         Menu menu = new Menu(cursor);
         MenuItem item = new MenuItem(menu, 8);
-        item.setText("¸´ÖÆµ¥Ôª¸ñ");
+        item.setText("å¤åˆ¶å•å…ƒæ ¼");
         cursor.setMenu(menu);
         item.addListener(13, event -> {
             String cellContent = cursor.getRow().getText(cursor.getColumn());
             Utils.setClipboardString(cellContent);
         });
         item = new MenuItem(menu, 8);
-        item.setText("¸´ÖÆÕûĞĞ");
+        item.setText("å¤åˆ¶æ•´è¡Œ");
         cursor.setMenu(menu);
         item.addListener(13, event -> {
             String lineContent = "";
@@ -432,11 +432,11 @@ public class DBManagerUtils {
             Utils.setClipboardString(lineContent);
         });
         item = new MenuItem(menu, 8);
-        item.setText("µ¼³öÈ«²¿²éÑ¯½á¹û");
+        item.setText("å¯¼å‡ºå…¨éƒ¨æŸ¥è¯¢ç»“æœ");
         cursor.setMenu(menu);
         item.addListener(13, event -> {
             FileDialog filedlg = new FileDialog(table.getShell(), 4096);
-            filedlg.setText("ÇëÑ¡Ôñ±£´æÂ·¾¶");
+            filedlg.setText("è¯·é€‰æ‹©ä¿å­˜è·¯å¾„");
             filedlg.setFilterPath(".");
             filedlg.setFileName("query_export.csv");
             final String selected = filedlg.open();
@@ -461,7 +461,7 @@ public class DBManagerUtils {
                     sb.append("\n");
                 }
 
-                DBManagerUtils.this.statusLabel.setText("ÕıÔÚĞ´ÈëÎÄ¼ş¡­¡­" + selected);
+                DBManagerUtils.this.statusLabel.setText("æ­£åœ¨å†™å…¥æ–‡ä»¶â€¦â€¦" + selected);
                 (new Thread() {
                     public void run() {
                         try {
@@ -471,7 +471,7 @@ public class DBManagerUtils {
                             fso.close();
                             Display.getDefault().syncExec(() -> {
                                 if (!DBManagerUtils.this.statusLabel.isDisposed()) {
-                                    DBManagerUtils.this.statusLabel.setText("µ¼³öÍê³É£¬ÎÄ¼şÒÑ±£´æÖÁ" + selected);
+                                    DBManagerUtils.this.statusLabel.setText("å¯¼å‡ºå®Œæˆï¼Œæ–‡ä»¶å·²ä¿å­˜è‡³" + selected);
                                 }
                             });
                         } catch (final Exception var2) {
@@ -500,7 +500,7 @@ public class DBManagerUtils {
                 Menu menu = new Menu(dataTree);
                 dataTree.setMenu(menu);
                 MenuItem openItem = new MenuItem(menu, 8);
-                openItem.setText("²éÑ¯Ç°10Ìõ");
+                openItem.setText("æŸ¥è¯¢å‰10æ¡");
                 openItem.addListener(13, arg0 -> {
                     final String tableName = currentNode.getText();
                     final String dataBaseName = currentNode.getParentItem().getText();
@@ -541,13 +541,13 @@ public class DBManagerUtils {
                     }).start();
                 });
                 MenuItem openAllItem = new MenuItem(menu, 8);
-                openAllItem.setText("²éÑ¯È«²¿");
+                openAllItem.setText("æŸ¥è¯¢å…¨éƒ¨");
                 openAllItem.addListener(13, arg0 -> {
                     final String tableName = currentNode.getText();
                     final String dataBaseName = currentNode.getParentItem().getText();
                     MessageBox dialog = new MessageBox(dataTree.getShell(), 196);
-                    dialog.setText("È·ÈÏ");
-                    dialog.setMessage("²éÑ¯ËùÓĞ¼ÇÂ¼¿ÉÄÜºÄÊ±½Ï³¤£¬È·¶¨²éÑ¯ËùÓĞ¼ÇÂ¼£¿");
+                    dialog.setText("ç¡®è®¤");
+                    dialog.setMessage("æŸ¥è¯¢æ‰€æœ‰è®°å½•å¯èƒ½è€—æ—¶è¾ƒé•¿ï¼Œç¡®å®šæŸ¥è¯¢æ‰€æœ‰è®°å½•ï¼Ÿ");
                     if (dialog.open() != 128) {
                         (new Thread() {
                             public void run() {
@@ -587,12 +587,12 @@ public class DBManagerUtils {
                     }
                 });
                 MenuItem exportItem = new MenuItem(menu, 8);
-                exportItem.setText("µ¼³öµ±Ç°±í");
+                exportItem.setText("å¯¼å‡ºå½“å‰è¡¨");
                 exportItem.addListener(13, arg0 -> {
                     final String tableName = currentNode.getText();
                     final String dataBaseName = currentNode.getParentItem().getText();
                     FileDialog filedlg = new FileDialog(dataTree.getShell(), 4096);
-                    filedlg.setText("ÇëÑ¡Ôñ±£´æÂ·¾¶");
+                    filedlg.setText("è¯·é€‰æ‹©ä¿å­˜è·¯å¾„");
                     filedlg.setFilterPath(".");
                     filedlg.setFileName("export_table.csv");
                     final String selected = filedlg.open();
@@ -639,7 +639,7 @@ public class DBManagerUtils {
                                     fso.close();
                                     Display.getDefault().syncExec(() -> {
                                         if (!DBManagerUtils.this.statusLabel.isDisposed()) {
-                                            DBManagerUtils.this.statusLabel.setText("µ¼³öÍê³É£¬ÎÄ¼şÒÑ±£´æÖÁ" + selected);
+                                            DBManagerUtils.this.statusLabel.setText("å¯¼å‡ºå®Œæˆï¼Œæ–‡ä»¶å·²ä¿å­˜è‡³" + selected);
                                         }
                                     });
                                 } catch (final Exception var10) {

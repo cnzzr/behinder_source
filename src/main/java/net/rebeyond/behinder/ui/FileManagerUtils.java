@@ -110,7 +110,7 @@ public class FileManagerUtils {
     }
 
     public void expandPathByNode(final TreeItem currentNode, final Table table) {
-        this.statusLabel.setText("ÕıÔÚ¶ÁÈ¡Ä¿Â¼¡­¡­");
+        this.statusLabel.setText("æ­£åœ¨è¯»å–ç›®å½•â€¦â€¦");
         currentNode.getParent().setSelection(currentNode);
         currentNode.removeAll();
         table.removeAll();
@@ -125,11 +125,11 @@ public class FileManagerUtils {
                             String status = resultObj.getString("status");
                             String msg = resultObj.getString("msg");
                             if (status.equals("fail")) {
-                                FileManagerUtils.this.statusLabel.setText("Ä¿Â¼¶ÁÈ¡Ê§°Ü:" + msg);
+                                FileManagerUtils.this.statusLabel.setText("ç›®å½•è¯»å–å¤±è´¥:" + msg);
                                 return;
                             }
 
-                            FileManagerUtils.this.statusLabel.setText("Ä¿Â¼¶ÁÈ¡³É¹¦");
+                            FileManagerUtils.this.statusLabel.setText("ç›®å½•è¯»å–æˆåŠŸ");
                             msg = msg.replace("},]", "}]");
                             JSONArray objArr = new JSONArray(msg.trim());
 
@@ -182,18 +182,18 @@ public class FileManagerUtils {
         String fileName = select.getText(0);
         final String fileFullPath = this.getFullPath(currentNode) + fileName;
         FileDialog filedlg = new FileDialog(table.getShell(), 4096);
-        filedlg.setText("ÎÄ¼şÑ¡Ôñ");
+        filedlg.setText("æ–‡ä»¶é€‰æ‹©");
         filedlg.setFilterPath("SystemRoot");
         filedlg.setFileName(fileName);
         final String selected = filedlg.open();
         if (selected != null && !selected.equals("")) {
-            this.statusLabel.setText("ÕıÔÚÏÂÔØ" + fileFullPath + "¡­¡­");
+            this.statusLabel.setText("æ­£åœ¨ä¸‹è½½" + fileFullPath + "â€¦â€¦");
             (new Thread() {
                 public void run() {
                     try {
                         FileManagerUtils.this.currentShellService.downloadFile(fileFullPath, selected);
                         File f = new File(selected);
-                        final String result = f.getName() + "ÏÂÔØÍê³É,ÎÄ¼ş´óĞ¡:" + f.length();
+                        final String result = f.getName() + "ä¸‹è½½å®Œæˆ,æ–‡ä»¶å¤§å°:" + f.length();
                         Display.getDefault().syncExec(() -> {
                             if (!FileManagerUtils.this.statusLabel.isDisposed()) {
                                 FileManagerUtils.this.statusLabel.setText(result);
@@ -235,7 +235,7 @@ public class FileManagerUtils {
                     Display.getDefault().syncExec(() -> {
                         if (!FileManagerUtils.this.statusLabel.isDisposed()) {
                             if (status.equals("fail")) {
-                                FileManagerUtils.this.statusLabel.setText("ÎÄ¼ş´ò¿ªÊ§°Ü:" + msg);
+                                FileManagerUtils.this.statusLabel.setText("æ–‡ä»¶æ‰“å¼€å¤±è´¥:" + msg);
                             } else {
                                 fileContentTxt.setText(msg);
                                 StackLayout layout = (StackLayout) table.getParent().getParent().getLayout();
@@ -264,7 +264,7 @@ public class FileManagerUtils {
         String status = resultObj.getString("status");
         String msg = resultObj.getString("msg");
         if (status.equals("fail")) {
-            this.statusLabel.setText("ÎÄ¼ş´ò¿ªÊ§°Ü:" + msg);
+            this.statusLabel.setText("æ–‡ä»¶æ‰“å¼€å¤±è´¥:" + msg);
         } else {
             fileContentTxt.setText(msg);
         }
@@ -278,7 +278,7 @@ public class FileManagerUtils {
         }
 
         final byte[] fileContent = charset == null ? fileContentTxt.getText().getBytes() : fileContentTxt.getText().getBytes(charset);
-        this.statusLabel.setText("ÕıÔÚ±£´æ¡­¡­");
+        this.statusLabel.setText("æ­£åœ¨ä¿å­˜â€¦â€¦");
         (new Thread() {
             public void run() {
                 try {
@@ -288,9 +288,9 @@ public class FileManagerUtils {
                     Display.getDefault().syncExec(() -> {
                         if (!FileManagerUtils.this.statusLabel.isDisposed()) {
                             if (status.equals("success")) {
-                                FileManagerUtils.this.statusLabel.setText("±£´æ³É¹¦¡£");
+                                FileManagerUtils.this.statusLabel.setText("ä¿å­˜æˆåŠŸã€‚");
                             } else {
-                                FileManagerUtils.this.statusLabel.setText("±£´æÊ§°Ü:" + msg);
+                                FileManagerUtils.this.statusLabel.setText("ä¿å­˜å¤±è´¥:" + msg);
                             }
 
                         }
@@ -314,7 +314,7 @@ public class FileManagerUtils {
             Menu menu = new Menu(table);
             table.setMenu(menu);
             MenuItem refreshItem = new MenuItem(menu, 8);
-            refreshItem.setText("Ë¢ĞÂ");
+            refreshItem.setText("åˆ·æ–°");
             refreshItem.addListener(13, arg0 -> {
                 TreeItem currentNode = tree.getSelection()[0];
 
@@ -326,7 +326,7 @@ public class FileManagerUtils {
 
             });
             MenuItem openItem = new MenuItem(menu, 8);
-            openItem.setText("´ò¿ª");
+            openItem.setText("æ‰“å¼€");
             openItem.addListener(13, arg0 -> {
                 TreeItem currentNode = tree.getSelection()[0];
                 if (table.getSelection().length != 0) {
@@ -339,7 +339,7 @@ public class FileManagerUtils {
                 }
             });
             MenuItem deleteItem = new MenuItem(menu, 8);
-            deleteItem.setText("É¾³ı");
+            deleteItem.setText("åˆ é™¤");
             deleteItem.addListener(13, arg0 -> {
                 if (table.getSelection().length != 0) {
                     TreeItem currentNode = tree.getSelection()[0];
@@ -353,7 +353,7 @@ public class FileManagerUtils {
                 }
             });
             MenuItem downloadItem = new MenuItem(menu, 8);
-            downloadItem.setText("ÏÂÔØ");
+            downloadItem.setText("ä¸‹è½½");
             downloadItem.addListener(13, arg0 -> {
                 if (table.getSelection().length != 0) {
                     TreeItem currentNode = tree.getSelection()[0];
@@ -367,7 +367,7 @@ public class FileManagerUtils {
                 }
             });
             MenuItem uploadItem = new MenuItem(menu, 8);
-            uploadItem.setText("ÉÏ´«");
+            uploadItem.setText("ä¸Šä¼ ");
             uploadItem.addListener(13, arg0 -> {
                 TreeItem currentNode = tree.getSelection()[0];
 
@@ -385,12 +385,12 @@ public class FileManagerUtils {
     public void uploadFile(final TreeItem currentNode, final Table table) throws Exception {
         final String fileFullPath = this.getFullPath(currentNode);
         FileDialog filedlg = new FileDialog(currentNode.getParent().getShell(), 4096);
-        filedlg.setText("ÎÄ¼şÑ¡Ôñ");
+        filedlg.setText("æ–‡ä»¶é€‰æ‹©");
         filedlg.setFilterPath(".");
         String localPath = filedlg.open();
         final String fileName = (new File(localPath)).getName();
         final byte[] fileContent = Utils.getFileData(localPath);
-        this.statusLabel.setText("ÕıÔÚÉÏ´«¡­¡­");
+        this.statusLabel.setText("æ­£åœ¨ä¸Šä¼ â€¦â€¦");
         if (this.currentShellService.currentType.equals("aspx")) {
             BUFFSIZE = 524288;
         }
@@ -405,7 +405,7 @@ public class FileManagerUtils {
                         if (status.equals("fail")) {
                             Display.getDefault().syncExec(() -> {
                                 if (!FileManagerUtils.this.statusLabel.isDisposed()) {
-                                    FileManagerUtils.this.statusLabel.setText("ÎÄ¼şÉÏ´«Ê§°Ü:" + msg);
+                                    FileManagerUtils.this.statusLabel.setText("æ–‡ä»¶ä¸Šä¼ å¤±è´¥:" + msg);
                                 }
                             });
                             return;
@@ -424,7 +424,7 @@ public class FileManagerUtils {
                                 if (statusx.equals("fail")) {
                                     Display.getDefault().syncExec(() -> {
                                         if (!FileManagerUtils.this.statusLabel.isDisposed()) {
-                                            FileManagerUtils.this.statusLabel.setText("ÎÄ¼şÉÏ´«Ê§°Ü:" + msgx);
+                                            FileManagerUtils.this.statusLabel.setText("æ–‡ä»¶ä¸Šä¼ å¤±è´¥:" + msgx);
                                         }
                                     });
                                     return;
@@ -437,9 +437,9 @@ public class FileManagerUtils {
                                 Display.getDefault().syncExec(() -> {
                                     if (!FileManagerUtils.this.statusLabel.isDisposed()) {
                                         if (statusx.equals("fail")) {
-                                            FileManagerUtils.this.statusLabel.setText("ÎÄ¼şÉÏ´«Ê§°Ü:" + msgx);
+                                            FileManagerUtils.this.statusLabel.setText("æ–‡ä»¶ä¸Šä¼ å¤±è´¥:" + msgx);
                                         } else {
-                                            FileManagerUtils.this.statusLabel.setText(String.format("ÕıÔÚÉÏ´«¡­¡­%skb/%skb", FileManagerUtils.BUFFSIZE * currentBlockIndex / 1024, fileContent.length / 1024));
+                                            FileManagerUtils.this.statusLabel.setText(String.format("æ­£åœ¨ä¸Šä¼ â€¦â€¦%skb/%skb", FileManagerUtils.BUFFSIZE * currentBlockIndex / 1024, fileContent.length / 1024));
                                         }
                                     }
                                 });
@@ -452,7 +452,7 @@ public class FileManagerUtils {
 
                     Display.getDefault().syncExec(() -> {
                         if (!FileManagerUtils.this.statusLabel.isDisposed()) {
-                            FileManagerUtils.this.statusLabel.setText("ÉÏ´«Íê³É");
+                            FileManagerUtils.this.statusLabel.setText("ä¸Šä¼ å®Œæˆ");
                             FileManagerUtils.this.expandPathByNode(currentNode, table);
                         }
                     });

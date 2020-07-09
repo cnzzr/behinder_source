@@ -16,7 +16,7 @@ public class ShellManager {
 
     public ShellManager() throws Exception {
         if (!new File(DB_PATH).exists()) {
-            throw new Exception("Êý¾Ý¿âÎÄ¼þ¶ªÊ§£¬ÎÞ·¨Æô¶¯¡£");
+            throw new Exception("æ•°æ®åº“æ–‡ä»¶ä¸¢å¤±ï¼Œæ— æ³•å¯åŠ¨ã€‚");
         }
         Class.forName(Class_Name);
         connection = DriverManager.getConnection(DB_URL);
@@ -71,7 +71,7 @@ public class ShellManager {
         PreparedStatement statement = connection.prepareStatement("select count(*) from shells where url=?");
         statement.setString(1, url);
         if (statement.executeQuery().getInt(1) > 0) {
-            throw new Exception("¸ÃURLÒÑ´æÔÚ");
+            throw new Exception("è¯¥URLå·²å­˜åœ¨");
         }
         PreparedStatement statement2 = connection.prepareStatement("insert into shells(url,ip,password,type,os,comment,headers,addtime,updatetime,accesstime) values (?,?,?,?,?,?,?,?,?,?)");
         statement2.setString(1, url);

@@ -32,7 +32,7 @@ public class Run {
             String cls = matcher.group(1);
             JavaCompiler jc = ToolProvider.getSystemJavaCompiler();
             if (jc == null) {
-                throw new Exception("±¾µØ»úÆ÷ÉÏÃ»ÓĞÕÒµ½±àÒë»·¾³£¬ÇëÈ·ÈÏ:1.ÊÇ·ñ°²×°ÁËJDK»·¾³;2." + System.getProperty("java.home") + File.separator + "libÄ¿Â¼ÏÂÊÇ·ñÓĞtools.jar.");
+                throw new Exception("æœ¬åœ°æœºå™¨ä¸Šæ²¡æœ‰æ‰¾åˆ°ç¼–è¯‘ç¯å¢ƒï¼Œè¯·ç¡®è®¤:1.æ˜¯å¦å®‰è£…äº†JDKç¯å¢ƒ;2." + System.getProperty("java.home") + File.separator + "libç›®å½•ä¸‹æ˜¯å¦æœ‰tools.jar.");
             }
             JavaFileManager fileManager = new CustomClassloaderJavaFileManager(Run.class.getClassLoader(), jc.getStandardFileManager(null, null, null));
             JavaFileObject javaFileObject = new MyJavaFileObject(cls, sourceCode);

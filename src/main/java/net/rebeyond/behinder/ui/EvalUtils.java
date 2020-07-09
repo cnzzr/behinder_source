@@ -35,14 +35,14 @@ public class EvalUtils {
             return;
         }
         if (this.currentShellService.currentType.equals("aspx")) {
-            this.sourceCodeTxt.setText("using System;\r\n\r\npublic class Eval {\r\n\r\n\tpublic void eval(Object obj) {\r\n\r\n\t/**ÓÃ»§×Ô¶¨Òå´úÂë¿ªÊ¼**/\t\r\n\r\n\tSystem.Web.UI.Page page = (System.Web.UI.Page)obj;\r\n\tpage.Response.Write(\"hello world\");\r\n\r\n   /**ÓÃ»§×Ô¶¨Òå´úÂë½áÊø**/\t\r\n\r\n\t}\r\n}");
+            this.sourceCodeTxt.setText("using System;\r\n\r\npublic class Eval {\r\n\r\n\tpublic void eval(Object obj) {\r\n\r\n\t/**ç”¨æˆ·è‡ªå®šä¹‰ä»£ç å¼€å§‹**/\t\r\n\r\n\tSystem.Web.UI.Page page = (System.Web.UI.Page)obj;\r\n\tpage.Response.Write(\"hello world\");\r\n\r\n   /**ç”¨æˆ·è‡ªå®šä¹‰ä»£ç ç»“æŸ**/\t\r\n\r\n\t}\r\n}");
         } else if (this.currentShellService.currentType.equals("php")) {
             this.sourceCodeTxt.setText("echo 'hello world';");
         }
     }
 
     public void execute(Button btn, final String sourceCode, final StyledText resultTxt) {
-        this.statusLabel.setText("ÕıÔÚÖ´ĞĞ¡­¡­");
+        this.statusLabel.setText("æ­£åœ¨æ‰§è¡Œâ€¦â€¦");
         new Thread() {
             public void run() {
                 try {
@@ -53,7 +53,7 @@ public class EvalUtils {
                         public void run() {
                             if (!EvalUtils.this.statusLabel.isDisposed()) {
                                 styledText.setText(result);
-                                EvalUtils.this.statusLabel.setText("Íê³É¡£");
+                                EvalUtils.this.statusLabel.setText("å®Œæˆã€‚");
                             }
                         }
                     });
@@ -65,7 +65,7 @@ public class EvalUtils {
                         display2.syncExec(new Runnable() {
                             public void run() {
                                 if (!EvalUtils.this.statusLabel.isDisposed()) {
-                                    EvalUtils.this.statusLabel.setText("ÔËĞĞÊ§°Ü");
+                                    EvalUtils.this.statusLabel.setText("è¿è¡Œå¤±è´¥");
                                     styledText2.setText(e.getMessage());
                                 }
                             }

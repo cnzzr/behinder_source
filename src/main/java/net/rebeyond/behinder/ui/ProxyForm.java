@@ -64,7 +64,7 @@ public class ProxyForm extends Shell {
     /* access modifiers changed from: private */
     public void showError(String errorTxt) {
         MessageBox dialog = new MessageBox(getShell(), 33);
-        dialog.setText("±£´æÊ§°Ü");
+        dialog.setText("ä¿å­˜å¤±è´¥");
         dialog.setMessage(errorTxt);
         dialog.open();
     }
@@ -83,37 +83,37 @@ public class ProxyForm extends Shell {
                 ProxyForm.this.enableControls(true);
             }
         });
-        this.enableProxyBtn.setText("ÆôÓÃ");
+        this.enableProxyBtn.setText("å¯ç”¨");
         this.disableProxyBtn = new Button(this.switchComp, 16);
         this.disableProxyBtn.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent arg0) {
                 ProxyForm.this.enableControls(false);
             }
         });
-        this.disableProxyBtn.setText("½ûÓÃ");
+        this.disableProxyBtn.setText("ç¦ç”¨");
         Label label = new Label(this.proxyComp, 0);
         label.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        label.setText("ÀàĞÍ");
+        label.setText("ç±»å‹");
         Combo combo = new Combo(this.proxyComp, 0);
         combo.setText("HTTP");
         Label lblNewLabel = new Label(this.proxyComp, 0);
         lblNewLabel.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        lblNewLabel.setText("IPµØÖ·£º");
+        lblNewLabel.setText("IPåœ°å€ï¼š");
         this.proxyIPTxt = new Text(this.proxyComp, 2048);
         this.proxyIPTxt.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         Label lblNewLabel_1 = new Label(this.proxyComp, 0);
         lblNewLabel_1.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        lblNewLabel_1.setText("¶Ë¿Ú£º");
+        lblNewLabel_1.setText("ç«¯å£ï¼š");
         this.proxyPortTxt = new Text(this.proxyComp, 2048);
         this.proxyPortTxt.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         Label label2 = new Label(this.proxyComp, 0);
         label2.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        label2.setText("ÓÃ»§Ãû£º");
+        label2.setText("ç”¨æˆ·åï¼š");
         this.ProxyUserTxt = new Text(this.proxyComp, 2048);
         this.ProxyUserTxt.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         Label label3 = new Label(this.proxyComp, 0);
         label3.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        label3.setText("ÃÜÂë£º");
+        label3.setText("å¯†ç ï¼š");
         this.ProxyPassTxt = new Text(this.proxyComp, 2048);
         this.ProxyPassTxt.setLayoutData(new GridData(4, 16777216, true, false, 1, 1));
         new Label(this.proxyComp, 0);
@@ -132,17 +132,17 @@ public class ProxyForm extends Shell {
                 try {
                     String type = combo2.getText();
                     if (!type.toUpperCase().equals("HTTP")) {
-                        ProxyForm.this.showError("Ä¿Ç°½öÖ§³ÖHTTPÀàĞÍµÄ´úÀí");
+                        ProxyForm.this.showError("ç›®å‰ä»…æ”¯æŒHTTPç±»å‹çš„ä»£ç†");
                         return;
                     }
                     String ip = ProxyForm.this.proxyIPTxt.getText().trim();
                     if (!Utils.checkIP(ip)) {
-                        ProxyForm.this.showError("IP¸ñÊ½ÓĞÎó");
+                        ProxyForm.this.showError("IPæ ¼å¼æœ‰è¯¯");
                         return;
                     }
                     String portTxt = ProxyForm.this.proxyPortTxt.getText().trim();
                     if (!Utils.checkPort(portTxt)) {
-                        ProxyForm.this.showError("¶Ë¿Ú¸ñÊ½ÓĞÎó");
+                        ProxyForm.this.showError("ç«¯å£æ ¼å¼æœ‰è¯¯");
                         return;
                     }
                     int port = Integer.parseInt(portTxt);
@@ -168,7 +168,7 @@ public class ProxyForm extends Shell {
             }
         });
         button.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        button.setText("±£´æ");
+        button.setText("ä¿å­˜");
         final Button cancelProxyBtn = new Button(this.btnComp, 0);
         cancelProxyBtn.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent arg0) {
@@ -176,7 +176,7 @@ public class ProxyForm extends Shell {
             }
         });
         cancelProxyBtn.setLayoutData(new GridData(16384, 16777216, true, false, 1, 1));
-        cancelProxyBtn.setText("È¡Ïû");
+        cancelProxyBtn.setText("å–æ¶ˆ");
         new Label(this.proxyComp, 0);
         new Label(this.proxyComp, 0);
         createContents();
@@ -196,7 +196,7 @@ public class ProxyForm extends Shell {
 
     /* access modifiers changed from: protected */
     public void createContents() {
-        setText("´úÀí·şÎñÆ÷ÉèÖÃ");
+        setText("ä»£ç†æœåŠ¡å™¨è®¾ç½®");
         setSize(456, 285);
     }
 

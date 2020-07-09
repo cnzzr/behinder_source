@@ -121,7 +121,7 @@ public class FileOperation {
         fso.write(Base64.getDecoder().decode(content));
         fso.flush();
         fso.close();
-        return path + "ÉÏ´«Íê³É£¬Ô¶³ÌÎÄ¼ş´óĞ¡:" + new File(path).length();
+        return path + "ä¸Šä¼ å®Œæˆï¼Œè¿œç¨‹æ–‡ä»¶å¤§å°:" + new File(path).length();
     }
 
     private void createDir(PageContext page) throws Exception {
@@ -150,7 +150,7 @@ public class FileOperation {
         fso.write(Base64.getDecoder().decode(content));
         fso.flush();
         fso.close();
-        return path + "×·¼ÓÍê³É£¬Ô¶³ÌÎÄ¼ş´óĞ¡:" + new File(path).length();
+        return path + "è¿½åŠ å®Œæˆï¼Œè¿œç¨‹æ–‡ä»¶å¤§å°:" + new File(path).length();
     }
 
     private Map<String, String> delete(PageContext page) throws Exception {
@@ -158,13 +158,13 @@ public class FileOperation {
         File f = new File(path);
         if (!f.exists()) {
             result.put("status", "fail");
-            result.put("msg", "ÎÄ¼ş²»´æÔÚ.");
+            result.put("msg", "æ–‡ä»¶ä¸å­˜åœ¨.");
         } else if (f.delete()) {
             result.put("status", "success");
-            result.put("msg", path + " É¾³ı³É¹¦.");
+            result.put("msg", path + " åˆ é™¤æˆåŠŸ.");
         } else {
             result.put("status", "fail");
-            result.put("msg", "ÎÄ¼ş" + path + "´æÔÚ£¬µ«ÊÇÉ¾³ıÊ§°Ü.");
+            result.put("msg", "æ–‡ä»¶" + path + "å­˜åœ¨ï¼Œä½†æ˜¯åˆ é™¤å¤±è´¥.");
         }
         return result;
     }

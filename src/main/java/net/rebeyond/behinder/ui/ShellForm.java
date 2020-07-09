@@ -51,7 +51,7 @@ public class ShellForm extends Shell {
         setLayout(gridLayout);
         Label label2 = new Label(this, 0);
         label2.setLayoutData(new GridData(131072, 16777216, false, false, 1, 1));
-        label2.setText("URL£º");
+        label2.setText("URLï¼š");
         this.UrlTxt = new CustomStyledText(this, 2048, Constants.MENU_ALL);
         this.UrlTxt.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent arg0) {
@@ -61,7 +61,7 @@ public class ShellForm extends Shell {
                     ShellForm.this.urlErrorLabel.setText("");
                     ShellForm.this.typeCombo.setText(url.getPath().substring(url.getPath().lastIndexOf(".") + 1).toLowerCase());
                 } catch (Exception e) {
-                    ShellForm.this.ErrorMsg = "URL¸ñÊ½´íÎó";
+                    ShellForm.this.ErrorMsg = "URLæ ¼å¼é”™è¯¯";
                     ShellForm.this.urlErrorLabel.setText(ShellForm.this.ErrorMsg);
                 }
             }
@@ -75,13 +75,13 @@ public class ShellForm extends Shell {
         GridData gd_lblNewLabel_2 = new GridData(131072, 16777216, false, false, 1, 1);
         gd_lblNewLabel_2.verticalIndent = 10;
         label3.setLayoutData(gd_lblNewLabel_2);
-        label3.setText("ÃÜÂë£º");
+        label3.setText("å¯†ç ï¼š");
         this.PassTxt = new CustomStyledText(this, 2048, Constants.MENU_ALL);
         this.PassTxt.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent arg0) {
                 if (ShellForm.this.PassTxt.getText().length() > 255) {
-                    ShellForm.this.PassErrorLabel.setText("ÃÜÂë³¤¶È²»Ó¦´óÓÚ255¸ö×Ö·û");
-                    ShellForm.this.ErrorMsg = "ÃÜÂë³¤¶È²»Ó¦´óÓÚ255¸ö×Ö·û";
+                    ShellForm.this.PassErrorLabel.setText("å¯†ç é•¿åº¦ä¸åº”å¤§äº255ä¸ªå­—ç¬¦");
+                    ShellForm.this.ErrorMsg = "å¯†ç é•¿åº¦ä¸åº”å¤§äº255ä¸ªå­—ç¬¦";
                     return;
                 }
                 ShellForm.this.PassErrorLabel.setText("");
@@ -99,7 +99,7 @@ public class ShellForm extends Shell {
         GridData gd_lblNewLabel_1 = new GridData(131072, 16777216, false, false, 1, 1);
         gd_lblNewLabel_1.verticalIndent = 10;
         label4.setLayoutData(gd_lblNewLabel_1);
-        label4.setText("ÀàĞÍ£º");
+        label4.setText("ç±»å‹ï¼š");
         this.typeCombo = new Combo(this, 8);
         this.typeCombo.setItems(new String[]{"jsp", "php", "aspx", "asp"});
         GridData gd_typeCombo = new GridData(16384, 16777216, false, false, 1, 1);
@@ -110,13 +110,13 @@ public class ShellForm extends Shell {
         GridData gd_lblNewLabel_3 = new GridData(131072, 16777216, false, true, 1, 1);
         gd_lblNewLabel_3.verticalIndent = 10;
         label5.setLayoutData(gd_lblNewLabel_3);
-        label5.setText("±¸×¢£º");
+        label5.setText("å¤‡æ³¨ï¼š");
         this.commentTxt = new CustomStyledText(this, 2048, Constants.MENU_ALL);
         GridData gd_commentTxt = new GridData(4, 4, true, false, 1, 1);
         gd_commentTxt.verticalIndent = 10;
         this.commentTxt.setLayoutData(gd_commentTxt);
         this.label = new Label(this, 0);
-        this.label.setText("ÇëÇóÍ·£º");
+        this.label.setText("è¯·æ±‚å¤´ï¼š");
         this.headerTxt = new CustomStyledText(this, 2048, Constants.MENU_ALL);
         final Display display2 = display;
         this.headerTxt.addModifyListener(new ModifyListener() {
@@ -163,13 +163,13 @@ public class ShellForm extends Shell {
         button.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 if (!ShellForm.this.ErrorMsg.equals("")) {
-                    ShellForm.this.showErrorMessage("Ìí¼ÓÊ§°Ü", ShellForm.this.ErrorMsg);
+                    ShellForm.this.showErrorMessage("æ·»åŠ å¤±è´¥", ShellForm.this.ErrorMsg);
                     return;
                 }
                 String url = ShellForm.this.UrlTxt.getText().trim();
                 String password = ShellForm.this.PassTxt.getText();
                 if (password.length() < 1) {
-                    ShellForm.this.showErrorMessage("´íÎó", "ÃÜÂë²»ÄÜÎª¿Õ£¬ÇëÊäÈëÃÜÂë");
+                    ShellForm.this.showErrorMessage("é”™è¯¯", "å¯†ç ä¸èƒ½ä¸ºç©ºï¼Œè¯·è¾“å…¥å¯†ç ");
                     return;
                 }
                 String type = ShellForm.this.typeCombo.getText();
@@ -185,7 +185,7 @@ public class ShellForm extends Shell {
                     main.fillShells();
                 } catch (Exception e1) {
                     e1.printStackTrace();
-                    ShellForm.this.showErrorMessage("±£´æÊ§°Ü", e1.getMessage());
+                    ShellForm.this.showErrorMessage("ä¿å­˜å¤±è´¥", e1.getMessage());
                 }
             }
         });
@@ -193,13 +193,13 @@ public class ShellForm extends Shell {
         gd_addShellBtn.widthHint = 80;
         gd_addShellBtn.verticalIndent = 10;
         button.setLayoutData(gd_addShellBtn);
-        button.setText("±£´æ");
+        button.setText("ä¿å­˜");
         if (shellID != -1) {
             try {
                 loadShellInfo(shellID);
             } catch (Exception e1) {
                 e1.printStackTrace();
-                showErrorMessage("¼ÓÔØÊ§°Ü", e1.getMessage());
+                showErrorMessage("åŠ è½½å¤±è´¥", e1.getMessage());
                 return;
             }
         }
@@ -216,7 +216,7 @@ public class ShellForm extends Shell {
 
     /* access modifiers changed from: protected */
     public void createContents() {
-        setText("ĞÂÔö");
+        setText("æ–°å¢");
         setSize(618, 355);
     }
 

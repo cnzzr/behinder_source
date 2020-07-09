@@ -70,7 +70,7 @@ public class OpSqliteDB {
             System.out.println("col1 = " + col1 + "  col2 = " + rs.getString("col2_name"));
             System.out.println(col1);
             statement1.executeUpdate("insert into table_name2(col2) values('3')");
-            statement1.executeUpdate("update table_name2 set ×Ö¶ÎÃû1=55 where ×Ö¶ÎÃû2='66'");
+            statement1.executeUpdate("update table_name2 set å­—æ®µå1=55 where å­—æ®µå2='66'");
         }
     }
 }
