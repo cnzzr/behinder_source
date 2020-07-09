@@ -1,0 +1,36 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+    <id>jar-with-dependencies</id>
+    <formats>
+        <format>jar</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <dependencySets>
+        <dependencySet>
+            <!-- 不把依赖解压，以jar文件打包 -->
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <excludes>
+                <!--
+org.eclipse.osgi-3.15.300.jar
+org.eclipse.core.jobs-3.10.800.jar
+org.eclipse.core.contenttype-3.7.700.jar
+behinder-2.0.1.jar-->
+                <exclude>org.eclipse.swt.*</exclude>
+                <exclude>behinder*</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
+    <fileSets>
+        <fileSet>
+            <!-- 对应 target/ -->
+            <directory>${project.build.outputDirectory}</directory>
+            <!-- 将 target/classes 目录打包到jar文件的相对目录 -->
+            <outputDirectory>/</outputDirectory>
+            <excludes>
+                <exclude>**/*.log</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+</assembly>
