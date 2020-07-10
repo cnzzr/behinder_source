@@ -306,13 +306,15 @@ public class Utils {
     private static String matchKey(String htmlContent) {
         String result = null;
         if (htmlContent != null && htmlContent.length() > 0) {
-            //String pattern = "value=\"([a-fA-F0-9]{16})\""; //分组匹配后需要取 group(1)
-            String pattern = "[a-fA-F0-9]{16}";
+            //分组匹配后需要取 group(1)
+            String pattern = htmlContent.length() <= 32 ? "[a-fA-F0-9]{16}" : "value=\"([a-fA-F0-9]{16})\"";
             Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(htmlContent);
-            if (m.find()) {
-                String key = m.group(0);
-                return key;
+            Matcher matcher = r.matcher(htmlContent);
+            while (matcher.find()) {
+                int index = matcher.groupCount();
+                String key = matcher.group(index);
+                System.out.println("ukey=" + key);
+                result = key;
             }
         }
         return result;
