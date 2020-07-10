@@ -33,6 +33,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 工具类
+ */
 public class Utils {
     private static Map<String, JavaFileObject> fileObjects = new ConcurrentHashMap<>();
 
@@ -68,12 +71,8 @@ public class Utils {
         StringBuffer sb = new StringBuffer();
         InputStreamReader isr = null;
         BufferedReader br = null;
-        URL url;
-        if (getUrl.indexOf("?") > 0) {
-            url = new URL(getUrl + "&" + password + "=" + (new Random()).nextInt(1000));
-        } else {
-            url = new URL(getUrl + "?" + password + "=" + (new Random()).nextInt(1000));
-        }
+        //getUrl 增加Guid随机参数，在后面的 getRawKey 方法中将复用
+        URL url = new URL(fillUrlParam(getUrl,false) + "&" + password + "=" + (new Random()).nextInt(1000));
 
         HttpURLConnection.setFollowRedirects(false);
         Object urlConnection;
@@ -143,11 +142,8 @@ public class Utils {
             throw new Exception(errorMsg);
         } else {
             //密匙获取成功的话，会返回一个 128 位的密匙，并保存在 rawKey_1 里面。
-            String rawKey_1 = sb.toString();
-            String pattern = "[a-fA-F0-9]{16}";
-            Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(rawKey_1);
-            if (!m.find()) {
+            String rawKey_1 = matchKey(sb.toString());
+            if (null == rawKey_1) {
                 throw new Exception("页面存在，但是无法获取密钥!");
             } else {
                 int start = 0;
@@ -203,17 +199,17 @@ public class Utils {
         }
     }
 
-    public static Map<String, String> getRawKey(String getUrl, String password, Map<String, String> requestHeaders) throws Exception {
+    private static Map<String, String> getRawKey(String getUrl, String password, Map<String, String> requestHeaders) throws Exception {
         Map<String, String> result = new HashMap<>();
         StringBuffer sb = new StringBuffer();
         InputStreamReader isr = null;
         BufferedReader br = null;
-        URL url;
-        if (getUrl.indexOf("?") > 0) {
-            url = new URL(getUrl + "&" + password + "=" + (new Random()).nextInt(1000));
-        } else {
-            url = new URL(getUrl + "?" + password + "=" + (new Random()).nextInt(1000));
-        }
+        URL url = new URL(fillUrlParam(getUrl, false) + "&" + password + "=" + (new Random()).nextInt(1000));
+        //if (getUrl.indexOf("?") > 0) {
+        //    url = new URL(getUrl + "&" + password + "=" + (new Random()).nextInt(1000));
+        //} else {
+        //    url = new URL(getUrl + "?" + password + "=" + (new Random()).nextInt(1000));
+        //}
 
         HttpURLConnection.setFollowRedirects(false);
         Object urlConnection;
@@ -248,22 +244,30 @@ public class Utils {
 
         cookieValues = "";
         Map<String, List<String>> headers = ((HttpURLConnection) urlConnection).getHeaderFields();
-        Iterator<String> var12 = headers.keySet().iterator();
+        Iterator<String> httpHeaders = headers.keySet().iterator();
 
         String line;
-        while (var12.hasNext()) {
-            String headerName = var12.next();
+        while (httpHeaders.hasNext()) {
+            String headerName = httpHeaders.next();
+            // Set-Cookie: JSESSIONID=9DB71C35C182C8C951E4A230FF6063A0; Path=/; HttpOnly
             if (headerName != null && headerName.equalsIgnoreCase("Set-Cookie")) {
-                for (Iterator var14 = ((List) headers.get(headerName)).iterator(); var14.hasNext(); cookieValues = cookieValues + ";" + line) {
-                    line = (String) var14.next();
+                for (Iterator iterator = ((List) headers.get(headerName)).iterator(); iterator.hasNext(); )
+                {
+                    line = (String) iterator.next();
+                    //截取cookies中有效数据
+                    int pos = line.indexOf("; ");
+                    if (pos > 0) {
+                        line = line.substring(0, pos);
+                    }
+                    cookieValues = cookieValues + ";" + line;
                 }
 
                 cookieValues = cookieValues.startsWith(";") ? cookieValues.replaceFirst(";", "") : cookieValues;
-                break;
+                //break; //需要把所有 Set-Cookie获取到
             }
         }
-
         result.put("cookie", cookieValues);
+
         boolean error = false;
         String errorMsg = "";
         if (((HttpURLConnection) urlConnection).getResponseCode() == 500) {
@@ -279,18 +283,39 @@ public class Utils {
         }
 
         br = new BufferedReader(isr);
-
         while ((line = br.readLine()) != null) {
             sb.append(line);
         }
-
         br.close();
         if (error) {
             throw new Exception(errorMsg);
         } else {
-            result.put("key", sb.toString());
+            String key = matchKey(sb.toString());
+            if (null != key) {
+                result.put("key", key);
+            }
             return result;
         }
+    }
+
+    /**
+     * 提取请求数据中的 key
+     * @param htmlContent
+     * @return
+     */
+    private static String matchKey(String htmlContent) {
+        String result = null;
+        if (htmlContent != null && htmlContent.length() > 0) {
+            //String pattern = "value=\"([a-fA-F0-9]{16})\""; //分组匹配后需要取 group(1)
+            String pattern = "[a-fA-F0-9]{16}";
+            Pattern r = Pattern.compile(pattern);
+            Matcher m = r.matcher(htmlContent);
+            if (m.find()) {
+                String key = m.group(0);
+                return key;
+            }
+        }
+        return result;
     }
 
     public static String sendPostRequest(String urlPath, String cookie, String data) throws Exception {
@@ -329,10 +354,40 @@ public class Utils {
         return resultObj;
     }
 
+    /**
+     * 填充请求参数
+     *
+     * @param urlPath
+     * @param requestPost
+     * @return
+     */
+    public static String fillUrlParam(String urlPath, boolean requestPost) {
+        StringBuilder stringBuilder = new StringBuilder(128);
+        stringBuilder.append(urlPath);
+        if (urlPath.indexOf("?") == -1) {
+            stringBuilder.append("?user=cnzzr");
+        }
+        int uaIndex = (new Random()).nextInt(RequestType.length - 1);
+        final String currentVal = RequestType[uaIndex];
+        stringBuilder.append("&module=").append(currentVal);
+
+        stringBuilder.append("&id=").append(UUID.randomUUID().toString());
+        if (requestPost) {
+            stringBuilder.append("&action=Update");
+        } else {
+            stringBuilder.append("&_=").append(String.valueOf(System.currentTimeMillis()));
+        }
+        return stringBuilder.toString();
+    }
+
+    private static String[] RequestType = {"Dept", "Person", "Position", "Language", "Class", "Teacher", "Product"};
+
     public static Map<String, Object> sendPostRequestBinary(String urlPath, Map<String, String> header, byte[] data) throws Exception {
         Map<String, Object> result = new HashMap<>();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        URL url = new URL(urlPath);
+        //cnzzr 修改增加请求参数 action
+        String urlPathWithRamdon = fillUrlParam(urlPath,true);
+        URL url = new URL(urlPathWithRamdon);
         HttpURLConnection conn;
         String key;
         if (Main.currentProxy != null) {
@@ -438,6 +493,13 @@ public class Utils {
         }
     }
 
+    /**
+     * 获取冰蝎版本更新信息，禁用！
+     * @param urlPath
+     * @param cookie
+     * @return
+     * @throws Exception
+     */
     public static String sendGetRequest(String urlPath, String cookie) throws Exception {
         StringBuilder sb = new StringBuilder();
         URL url = new URL(urlPath);
