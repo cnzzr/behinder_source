@@ -24,9 +24,6 @@ public class BasicInfoUtils {
     public BasicInfoUtils() {
     }
 
-    public static void main(String[] args) {
-    }
-
     public static void formatPayloadName(String currentType, Text msfTipsTxt, String shellType) {
         String payloadName = "java/meterpreter/reverse_tcp";
         if (currentType.equals("php")) {
@@ -65,6 +62,7 @@ public class BasicInfoUtils {
         // 获取随机的客户端Agent
         int uaIndex = (new Random()).nextInt(Constants.userAgents.length - 1);
         final String currentUserAgent = Constants.userAgents[uaIndex];
+
         final MainShell mainShell = (MainShell) dirTree.getShell();
         memoTxt.setText(shellEntity.getString("memo"));
         formatPayloadName(shellEntity.getString("type"), msfTipsTxt, "meterpreter");
@@ -100,24 +98,25 @@ public class BasicInfoUtils {
                     mainShell.basicInfoMap.put("currentPath", currentPath);
                     mainShell.basicInfoMap.put("osInfo", osInfo.replace("winnt", "windows"));
                     Display.getDefault().syncExec(new Runnable() {
+                        @Override
                         public void run() {
                             if (!statusLabel.isDisposed()) {
                                 baseInfoView.setText(basicInfoStr);
                                 statusLabel.setText("基本信息获取完成，你可以使用CTRL+F进行搜索");
                                 dirTree.removeAll();
-                                String[] var4;
-                                int var3 = (var4 = driveList.split(";")).length;
+                                String[] drivers;
+                                int var3 = (drivers = driveList.split(";")).length;
 
-                                for (int var2 = 0; var2 < var3; ++var2) {
-                                    String drive = var4[var2];
+                                for (int driverIndex = 0; driverIndex < var3; ++driverIndex) {
+                                    String drive = drivers[driverIndex];
                                     TreeItem driveItem = new TreeItem(dirTree, 0);
                                     driveItem.setText(drive);
                                     driveItem.setData("type", "root");
 
                                     try {
                                         driveItem.setImage(new Image(dirTree.getDisplay(), new ByteArrayInputStream(Utils.getResourceData("net/rebeyond/behinder/resource/drive.png"))));
-                                    } catch (Exception var7) {
-                                        var7.printStackTrace();
+                                    } catch (Exception driveExe) {
+                                        driveExe.printStackTrace();
                                     }
                                 }
 
@@ -156,26 +155,27 @@ public class BasicInfoUtils {
 
                         }
                     }).start();
-                    (new Thread() {
-                        public void run() {
-                            try {
-                                final String updateInfoRes = Utils.sendGetRequest("http://www.rebeyond.net/Behinder/update.html?ver=" + Constants.VERSION, "");
-                                Display.getDefault().syncExec(new Runnable() {
-                                    public void run() {
-                                        if (!statusLabel.isDisposed()) {
-                                            updateInfo.setText(updateInfoRes);
-                                        }
-                                    }
-                                });
-                            } catch (Exception var2) {
-                                var2.printStackTrace();
-                            }
-
-                        }
-                    }).start();
+                    //(new Thread() {
+                    //    public void run() {
+                    //        try {
+                    //            final String updateInfoRes = Utils.sendGetRequest("http://www.rebeyond.net/Behinder/update.html?ver=" + Constants.VERSION, "");
+                    //            Display.getDefault().syncExec(new Runnable() {
+                    //                public void run() {
+                    //                    if (!statusLabel.isDisposed()) {
+                    //                        updateInfo.setText(updateInfoRes);
+                    //                    }
+                    //                }
+                    //            });
+                    //        } catch (Exception var2) {
+                    //            var2.printStackTrace();
+                    //        }
+                    //
+                    //    }
+                    //}).start();
                 } catch (final Exception var7) {
                     if (var7.getMessage() != null && !statusLabel.isDisposed()) {
                         Display.getDefault().syncExec(new Runnable() {
+                            @Override
                             public void run() {
                                 if (!statusLabel.isDisposed()) {
                                     connectStatus.setForeground(Display.getDefault().getSystemColor(3));
